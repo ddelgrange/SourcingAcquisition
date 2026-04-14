@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dragons Capital Adventure — Sourcing Acquisitions</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #13161e;
+  --surface2: #1a1e2a;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --gold: #c8a84b;
+  --gold2: #e8c96a;
+  --gold-dim: rgba(200,168,75,0.15);
+  --text: #e8e6e0;
+  --text2: #8b8a84;
+  --text3: #5a5955;
+  --blue: #4a7fc1;
+  --green: #4a9c6d;
+  --orange: #c07d3a;
+  --red: #a84848;
+  --green-dim: rgba(74,156,109,0.15);
+  --orange-dim: rgba(192,125,58,0.15);
+  --red-dim: rgba(168,72,72,0.15);
+  --blue-dim: rgba(74,127,193,0.15);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 28px 40px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  background: rgba(13,15,20,0.95);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+}
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.03em;
+  color: var(--gold2);
+}
+.logo span { color: var(--text2); font-weight: 400; }
+.header-sep { flex: 1; }
+.header-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── LAYOUT ── */
+.layout {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  min-height: calc(100vh - 71px);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  padding: 28px 24px;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  position: sticky;
+  top: 71px;
+  height: calc(100vh - 71px);
+}
+.sidebar-section { margin-bottom: 24px; }
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.field { margin-bottom: 12px; }
+.field label {
+  display: block;
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 5px;
+}
+.field input, .field select {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 8px 10px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.field input:focus, .field select:focus { border-color: var(--gold); }
+.field input::placeholder { color: var(--text3); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.naf-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+.naf-controls-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.naf-controls-top input[type=text] {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  padding: 5px 8px;
+  outline: none;
+}
+.naf-controls-top input[type=text]:focus { border-color: var(--gold); }
+.naf-controls-top input[type=text]::placeholder { color: var(--text3); }
+.naf-btn-sm {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text3);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.1s, border-color 0.1s;
+}
+.naf-btn-sm:hover { color: var(--gold); border-color: var(--gold); }
+.naf-group {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.naf-group-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 9px;
+  cursor: pointer;
+  background: var(--surface2);
+  transition: background 0.1s;
+  user-select: none;
+}
+.naf-group-header:hover { background: rgba(200,168,75,0.08); }
+.naf-group-chevron {
+  font-size: 9px;
+  color: var(--text3);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.naf-group.open > .naf-group-header .naf-group-chevron { transform: rotate(90deg); }
+.naf-group-letter {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  font-weight: 700;
+  flex-shrink: 0;
+  width: 14px;
+}
+.naf-group-title {
+  flex: 1;
+  font-size: 11px;
+  color: var(--text2);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.naf-group-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  flex-shrink: 0;
+}
+.naf-group-badge.has-checked { color: var(--gold); }
+.naf-group-body {
+  display: none;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.naf-group.open > .naf-group-body { display: block; }
+.naf-group-actions {
+  display: flex;
+  gap: 10px;
+  padding: 5px 10px 4px;
+  border-bottom: 1px solid var(--border);
+}
+.naf-group-actions button {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  color: var(--text3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.1s;
+}
+.naf-group-actions button:hover { color: var(--gold); }
+.naf-group-items { padding: 3px 0; }
+.naf-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.naf-item:hover { background: var(--surface2); }
+.naf-item input[type=checkbox] { accent-color: var(--gold); cursor: pointer; flex-shrink: 0; }
+.naf-item span { font-size: 11px; color: var(--text2); }
+.naf-item code { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); flex-shrink: 0; }
+.naf-item.hidden { display: none; }
+
+.btn-launch {
+  width: 100%;
+  padding: 12px;
+  background: var(--gold);
+  color: #0d0f14;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  margin-top: 8px;
+}
+.btn-launch:hover { background: var(--gold2); }
+.btn-launch:active { transform: scale(0.98); }
+.btn-launch:disabled { background: var(--text3); cursor: not-allowed; }
+
+/* ── MAIN ── */
+.main { padding: 28px 32px; overflow-y: auto; }
+
+/* ── PROGRESS ── */
+.progress-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 24px;
+  display: none;
+}
+.progress-card.visible { display: block; }
+.progress-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.spinner {
+  width: 14px; height: 14px;
+  border: 2px solid var(--gold-dim);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.progress-steps { display: flex; flex-direction: column; gap: 10px; }
+.step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text3);
+  transition: color 0.2s;
+}
+.step.active { color: var(--text); }
+.step.done { color: var(--green); }
+.step-icon {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.step.active .step-icon { border-color: var(--gold); background: var(--gold-dim); color: var(--gold); }
+.step.done .step-icon { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+.progress-bar-wrap { margin-top: 14px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.progress-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
+.progress-log {
+  margin-top: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--text3);
+  max-height: 80px;
+  overflow-y: auto;
+}
+.log-line { padding: 1px 0; }
+.log-line.ok { color: var(--green); }
+.log-line.warn { color: var(--orange); }
+.log-line.err { color: var(--red); }
+
+/* ── KPI CARDS ── */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.kpi-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+.kpi-label { font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+/* ── FILTERS BAR ── */
+.filters-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.filter-group { display: flex; align-items: center; gap: 6px; }
+.filter-group label { font-size: 11px; color: var(--text2); white-space: nowrap; }
+.filter-group select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 11px;
+  padding: 5px 8px;
+  outline: none;
+}
+.sep { flex: 1; }
+.btn-export {
+  padding: 7px 14px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text2);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.05em;
+}
+.btn-export:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  padding: 10px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  text-align: left;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+}
+thead th:hover { color: var(--text2); }
+thead th.sorted { color: var(--gold); }
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+  cursor: pointer;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface2); }
+td {
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--text);
+  vertical-align: middle;
+}
+.company-name { font-weight: 500; font-size: 13px; }
+.company-form { font-size: 10px; color: var(--text3); }
+.naf-label { font-size: 10px; color: var(--text2); max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ca-val { font-family: 'DM Mono', monospace; text-align: right; }
+.smc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.smc-blue  { background: var(--blue-dim);   color: #7aaee8; }
+.smc-green { background: var(--green-dim);  color: #6dc994; }
+.smc-orange{ background: var(--orange-dim); color: #dfa060; }
+.smc-red   { background: var(--red-dim);    color: #d97777; }
+.smc-dot { width: 5px; height: 5px; border-radius: 50%; }
+.smc-blue  .smc-dot { background: #7aaee8; }
+.smc-green .smc-dot { background: #6dc994; }
+.smc-orange .smc-dot { background: #dfa060; }
+.smc-red   .smc-dot { background: #d97777; }
+.tag-nc { color: var(--text3); font-style: italic; font-size: 11px; }
+.link-ann { font-size: 10px; color: var(--blue); text-decoration: none; opacity: 0.7; }
+.link-ann:hover { opacity: 1; }
+
+/* ── EMPTY / ERROR ── */
+.empty-state {
+  text-align: center;
+  padding: 80px 40px;
+  color: var(--text3);
+}
+.empty-icon { font-size: 40px; margin-bottom: 16px; opacity: 0.3; }
+.empty-title { font-family: 'Syne', sans-serif; font-size: 16px; color: var(--text2); margin-bottom: 8px; }
+.empty-sub { font-size: 12px; }
+
+/* ── DRAWER DETAIL ── */
+.drawer-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 200;
+  display: none;
+  backdrop-filter: blur(4px);
+}
+.drawer-overlay.open { display: block; }
+.drawer {
+  position: fixed;
+  right: 0; top: 0; bottom: 0;
+  width: 420px;
+  background: var(--surface);
+  border-left: 1px solid var(--border2);
+  z-index: 201;
+  padding: 28px;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+}
+.drawer.open { transform: translateX(0); }
+.drawer-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: none; border: none;
+  color: var(--text3); font-size: 18px;
+  cursor: pointer; padding: 4px 8px;
+}
+.drawer-close:hover { color: var(--text); }
+.drawer-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  padding-right: 40px;
+}
+.drawer-siren { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); margin-bottom: 20px; }
+.drawer-section { margin-bottom: 20px; }
+.drawer-section-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border);
+}
+.drawer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 12px;
+}
+.drawer-row-label { color: var(--text2); }
+.drawer-row-val { font-family: 'DM Mono', monospace; color: var(--text); text-align: right; }
+.fin-row { display: grid; grid-template-columns: 60px 1fr 1fr; gap: 8px; font-size: 11px; padding: 4px 0; }
+.fin-row-hdr { color: var(--text3); font-family: 'DM Mono', monospace; font-size: 10px; }
+
+.smc-big {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--surface2);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+.smc-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+}
+.smc-info { flex: 1; }
+.smc-label-big { font-size: 13px; font-weight: 500; }
+.smc-desc { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.smc-bar-wrap { margin-top: 8px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.smc-bar-fill { height: 100%; border-radius: 2px; }
+
+/* ── PAGINATION ── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 0;
+  font-size: 12px;
+  color: var(--text2);
+}
+.pag-btn {
+  padding: 5px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.15s;
+}
+.pag-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+.pag-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">Dragons Capital<span> / Adventure</span></div>
+  <div class="header-sep"></div>
+  <div class="header-tag">Sourcing Acquisitions — Mode gratuit</div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="section-label">Géographie</div>
+      <div class="field">
+        <label>Département(s)</label>
+        <input type="text" id="f-dept" value="59,62" placeholder="ex: 59,62,80">
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="section-label">Dirigeant</div>
+      <div class="field-row">
+        <div class="field">
+          <label>Âge min</label>
+          <input type="number" id="f-age-min" value="58" min="0" max="100">
+        </div>
+        <div class="field">
+          <label>Âge max</label>
+          <input type="number" id="f-age-max" value="80" min="0" max="100">
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="section-label">Financier</div>
+      <div class="field">
+        <label>CA minimum (€)</label>
+        <input type="number" id="f-ca-min" value="300000" step="50000">
+      </div>
+      <div class="field">
+        <label>CA maximum (€)</label>
+        <input type="number" id="f-ca-max" value="3000000" step="100000">
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="section-label">Secteurs d'activité</div>
+      <div class="naf-controls-top">
+        <input type="text" id="naf-search" placeholder="Filtrer codes NAF…" oninput="nafFilter(this.value)">
+        <button class="naf-btn-sm" onclick="nafSelectAll(true)">Tout</button>
+        <button class="naf-btn-sm" onclick="nafSelectAll(false)">Aucun</button>
+      </div>
+      <div class="naf-wrapper" id="naf-grid"></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="section-label">Paramètres</div>
+      <div class="field">
+        <label>Max entreprises (passe 2)</label>
+        <select id="f-max">
+          <option value="50">50 — test rapide (~30 sec)</option>
+          <option value="200">200 — recherche courte (~2 min)</option>
+          <option value="500" selected>500 — recherche standard (~5 min)</option>
+          <option value="1000">1000 — recherche longue (~12 min)</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-launch" id="btn-launch" onclick="lancerRecherche()">
+      ▶ Lancer la recherche
+    </button>
+
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+      <div class="section-label">Diagnostic SIREN</div>
+      <div class="field">
+        <label>SIREN à inspecter</label>
+        <input type="text" id="debug-siren" placeholder="ex: 422060236">
+      </div>
+      <button onclick="debugSiren()" style="width:100%;padding:8px;background:transparent;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-size:11px;cursor:pointer;font-family:&#39;DM Mono&#39;,monospace;letter-spacing:0.05em;margin-bottom:8px;">
+        🔍 Inspecter l'API
+      </button>
+      <div id="debug-output" style="display:none;font-family:&#39;DM Mono&#39;,monospace;font-size:10px;color:var(--text2);max-height:350px;overflow-y:auto;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;white-space:pre-wrap;word-break:break-all;line-height:1.5;"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- PROGRESS -->
+    <div class="progress-card" id="progress-card">
+      <div class="progress-title">
+        <div class="spinner" id="spinner"></div>
+        <span id="progress-title-text">Recherche en cours…</span>
+      </div>
+      <div class="progress-steps">
+        <div class="step" id="step-1">
+          <div class="step-icon">1</div>
+          <span>Passe 1 — Recherche entreprises (data.gouv.fr)</span>
+        </div>
+        <div class="step" id="step-2">
+          <div class="step-icon">2</div>
+          <span>Passe 2 — Dirigeants & âge (RNE INPI)</span>
+        </div>
+        <div class="step" id="step-3">
+          <div class="step-icon">3</div>
+          <span>Passe 3 — Comptes annuels (bilans INPI)</span>
+        </div>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="progress-log" id="progress-log"></div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpis" id="kpis" style="display:none">
+      <div class="kpi"><div class="kpi-val" id="kpi-total">—</div><div class="kpi-label">Cibles trouvées</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpi-fort">—</div><div class="kpi-label">Fort potentiel (SMC ≥ 65)</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpi-smc-moy">—</div><div class="kpi-label">SMC moyen</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpi-ca-moy">—</div><div class="kpi-label">CA moyen</div></div>
+    </div>
+
+    <!-- FILTERS BAR -->
+    <div class="filters-bar" id="filters-bar" style="display:none">
+      <div class="filter-group">
+        <label>SMC min</label>
+        <select id="filter-smc" onchange="renderTable()">
+          <option value="0">Tous</option>
+          <option value="40">≥ 40</option>
+          <option value="65">≥ 65</option>
+          <option value="85">≥ 85</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Trier par</label>
+        <select id="sort-by" onchange="renderTable()">
+          <option value="smc">Score SMC</option>
+          <option value="ca">CA</option>
+          <option value="age">Âge dirigeant</option>
+          <option value="anc">Ancienneté</option>
+        </select>
+      </div>
+      <div class="sep"></div>
+      <button class="btn-export" onclick="exportExcel()">⬇ Export Excel</button>
+    </div>
+
+    <!-- TABLE -->
+    <div id="results-area">
+      <div class="empty-state">
+        <div class="empty-icon">◈</div>
+        <div class="empty-title">Aucune recherche lancée</div>
+        <div class="empty-sub">Configurez vos critères et lancez la recherche</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- DRAWER -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  <div id="drawer-content"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+// ── NAF DATA ─────────────────────────────────────────────────────────────────
+const NAF_GROUPS = [
+  { id:"A", label:"Agriculture, sylviculture et pêche", codes:[
+    {code:"01.11Z",label:"Culture de céréales (à l'exception du riz), de légumineuses et de graines oléagineuses"},
+    {code:"01.12Z",label:"Culture du riz"},
+    {code:"01.13Z",label:"Culture de légumes, de melons, de racines et de tubercules"},
+    {code:"01.14Z",label:"Culture de la canne à sucre"},
+    {code:"01.15Z",label:"Culture du tabac"},
+    {code:"01.16Z",label:"Culture de plantes à fibres"},
+    {code:"01.19Z",label:"Autres cultures non permanentes"},
+    {code:"01.21Z",label:"Culture de la vigne"},
+    {code:"01.22Z",label:"Culture de fruits tropicaux et subtropicaux"},
+    {code:"01.23Z",label:"Culture d'agrumes"},
+    {code:"01.24Z",label:"Culture de fruits à pépins et à noyau"},
+    {code:"01.25Z",label:"Culture d'autres fruits d'arbres ou d'arbustes et de fruits à coque"},
+    {code:"01.26Z",label:"Culture de fruits oléagineux"},
+    {code:"01.27Z",label:"Culture de plantes à boissons"},
+    {code:"01.28Z",label:"Culture de plantes à épices, aromatiques, médicinales et pharmaceutiques"},
+    {code:"01.29Z",label:"Autres cultures permanentes"},
+    {code:"01.30Z",label:"Reproduction de plantes"},
+    {code:"01.41Z",label:"Élevage de vaches laitières"},
+    {code:"01.42Z",label:"Élevage d'autres bovins et de buffles"},
+    {code:"01.43Z",label:"Élevage de chevaux et d'autres équidés"},
+    {code:"01.44Z",label:"Élevage de chameaux et d'autres camélidés"},
+    {code:"01.45Z",label:"Élevage d'ovins et de caprins"},
+    {code:"01.46Z",label:"Élevage de porcins"},
+    {code:"01.47Z",label:"Élevage de volailles"},
+    {code:"01.49Z",label:"Élevage d'autres animaux"},
+    {code:"01.50Z",label:"Culture et élevage associés"},
+    {code:"01.61Z",label:"Activités de soutien aux cultures"},
+    {code:"01.62Z",label:"Activités de soutien à la production animale"},
+    {code:"01.63Z",label:"Traitement primaire des récoltes"},
+    {code:"01.64Z",label:"Traitement des semences"},
+    {code:"01.70Z",label:"Chasse, piégeage et services annexes"},
+    {code:"02.10Z",label:"Sylviculture et autres activités forestières"},
+    {code:"02.20Z",label:"Exploitation forestière"},
+    {code:"02.30Z",label:"Récolte de produits forestiers non ligneux poussant à l'état sauvage"},
+    {code:"02.40Z",label:"Services de soutien à l'exploitation forestière"},
+    {code:"03.11Z",label:"Pêche en mer"},
+    {code:"03.12Z",label:"Pêche en eau douce"},
+    {code:"03.21Z",label:"Aquaculture en mer"},
+    {code:"03.22Z",label:"Aquaculture en eau douce"}
+  ]},
+  { id:"B", label:"Industries extractives", codes:[
+    {code:"05.10Z",label:"Extraction de houille"},
+    {code:"05.20Z",label:"Extraction de lignite"},
+    {code:"06.10Z",label:"Extraction de pétrole brut"},
+    {code:"06.20Z",label:"Extraction de gaz naturel"},
+    {code:"07.10Z",label:"Extraction de minerais de fer"},
+    {code:"07.21Z",label:"Extraction de minerais d'uranium et de thorium"},
+    {code:"07.29Z",label:"Extraction d'autres minerais de métaux non ferreux"},
+    {code:"08.11Z",label:"Extraction de pierres ornementales et de construction, de calcaire industriel, de gypse, de craie et d'ardoise"},
+    {code:"08.12Z",label:"Exploitation de gravières et sablières, extraction d’argiles et de kaolin"},
+    {code:"08.91Z",label:"Extraction des minéraux chimiques et d'engrais minéraux"},
+    {code:"08.92Z",label:"Extraction de tourbe"},
+    {code:"08.93Z",label:"Production de sel"},
+    {code:"08.99Z",label:"Autres activités extractives n.c.a."},
+    {code:"09.10Z",label:"Activités de soutien à l'extraction d'hydrocarbures"},
+    {code:"09.90Z",label:"Activités de soutien aux autres industries extractives"}
+  ]},
+  { id:"C", label:"Industrie manufacturière", codes:[
+    {code:"10.11Z",label:"Transformation et conservation de la viande de boucherie"},
+    {code:"10.12Z",label:"Transformation et conservation de la viande de volaille"},
+    {code:"10.13A",label:"Préparation industrielle de produits à base de viande"},
+    {code:"10.13B",label:"Charcuterie"},
+    {code:"10.20Z",label:"Transformation et conservation de poisson, de crustacés et de mollusques"},
+    {code:"10.31Z",label:"Transformation et conservation de pommes de terre"},
+    {code:"10.32Z",label:"Préparation de jus de fruits et légumes"},
+    {code:"10.39A",label:"Autre transformation et conservation de légumes"},
+    {code:"10.39B",label:"Transformation et conservation de fruits"},
+    {code:"10.41A",label:"Fabrication d'huiles et graisses brutes"},
+    {code:"10.41B",label:"Fabrication d'huiles et graisses raffinées"},
+    {code:"10.42Z",label:"Fabrication de margarine et graisses comestibles similaires"},
+    {code:"10.51A",label:"Fabrication de lait liquide et de produits frais"},
+    {code:"10.51B",label:"Fabrication de beurre"},
+    {code:"10.51C",label:"Fabrication de fromage"},
+    {code:"10.51D",label:"Fabrication d'autres produits laitiers"},
+    {code:"10.52Z",label:"Fabrication de glaces et sorbets"},
+    {code:"10.61A",label:"Meunerie"},
+    {code:"10.61B",label:"Autres activités du travail des grains"},
+    {code:"10.62Z",label:"Fabrication de produits amylacés"},
+    {code:"10.71A",label:"Fabrication industrielle de pain et de pâtisserie fraîche"},
+    {code:"10.71B",label:"Cuisson de produits de boulangerie"},
+    {code:"10.71C",label:"Boulangerie et boulangerie-pâtisserie"},
+    {code:"10.71D",label:"Pâtisserie"},
+    {code:"10.72Z",label:"Fabrication de biscuits, biscottes et pâtisseries de conservation"},
+    {code:"10.73Z",label:"Fabrication de pâtes alimentaires"},
+    {code:"10.81Z",label:"Fabrication de sucre"},
+    {code:"10.82Z",label:"Fabrication de cacao, chocolat et de produits de confiserie"},
+    {code:"10.83Z",label:"Transformation du thé et du café"},
+    {code:"10.84Z",label:"Fabrication de condiments et assaisonnements"},
+    {code:"10.85Z",label:"Fabrication de plats préparés"},
+    {code:"10.86Z",label:"Fabrication d'aliments homogénéisés et diététiques"},
+    {code:"10.89Z",label:"Fabrication d'autres produits alimentaires n.c.a."},
+    {code:"10.91Z",label:"Fabrication d'aliments pour animaux de ferme"},
+    {code:"10.92Z",label:"Fabrication d'aliments pour animaux de compagnie"},
+    {code:"11.01Z",label:"Production de boissons alcooliques distillées"},
+    {code:"11.02A",label:"Fabrication de vins effervescents"},
+    {code:"11.02B",label:"Vinification"},
+    {code:"11.03Z",label:"Fabrication de cidre et de vins de fruits"},
+    {code:"11.04Z",label:"Production d'autres boissons fermentées non distillées"},
+    {code:"11.05Z",label:"Fabrication de bière"},
+    {code:"11.06Z",label:"Fabrication de malt"},
+    {code:"11.07A",label:"Industrie des eaux de table"},
+    {code:"11.07B",label:"Production de boissons rafraîchissantes"},
+    {code:"12.00Z",label:"Fabrication de produits à base de tabac"},
+    {code:"13.10Z",label:"Préparation de fibres textiles et filature"},
+    {code:"13.20Z",label:"Tissage"},
+    {code:"13.30Z",label:"Ennoblissement textile"},
+    {code:"13.91Z",label:"Fabrication d'étoffes à mailles"},
+    {code:"13.92Z",label:"Fabrication d'articles textiles, sauf habillement"},
+    {code:"13.93Z",label:"Fabrication de tapis et moquettes"},
+    {code:"13.94Z",label:"Fabrication de ficelles, cordes et filets"},
+    {code:"13.95Z",label:"Fabrication de non-tissés, sauf habillement"},
+    {code:"13.96Z",label:"Fabrication d'autres textiles techniques et industriels"},
+    {code:"13.99Z",label:"Fabrication d'autres textiles n.c.a."},
+    {code:"14.11Z",label:"Fabrication de vêtements en cuir"},
+    {code:"14.12Z",label:"Fabrication de vêtements de travail"},
+    {code:"14.13Z",label:"Fabrication de vêtements de dessus"},
+    {code:"14.14Z",label:"Fabrication de vêtements de dessous"},
+    {code:"14.19Z",label:"Fabrication d'autres vêtements et accessoires"},
+    {code:"14.20Z",label:"Fabrication d'articles en fourrure"},
+    {code:"14.31Z",label:"Fabrication d'articles chaussants à mailles"},
+    {code:"14.39Z",label:"Fabrication d'autres articles à mailles"},
+    {code:"15.11Z",label:"Apprêt et tannage des cuirs ; préparation et teinture des fourrures"},
+    {code:"15.12Z",label:"Fabrication d'articles de voyage, de maroquinerie et de sellerie"},
+    {code:"15.20Z",label:"Fabrication de chaussures"},
+    {code:"16.10A",label:"Sciage et rabotage du bois, hors imprégnation"},
+    {code:"16.10B",label:"Imprégnation du bois"},
+    {code:"16.21Z",label:"Fabrication de placage et de panneaux de bois"},
+    {code:"16.22Z",label:"Fabrication de parquets assemblés"},
+    {code:"16.23Z",label:"Fabrication de charpentes et d'autres menuiseries"},
+    {code:"16.24Z",label:"Fabrication d'emballages en bois"},
+    {code:"16.29Z",label:"Fabrication d'objets divers en bois ; fabrication d'objets en liège, vannerie et sparterie"},
+    {code:"17.11Z",label:"Fabrication de pâte à papier"},
+    {code:"17.12Z",label:"Fabrication de papier et de carton"},
+    {code:"17.21A",label:"Fabrication de carton ondulé"},
+    {code:"17.21B",label:"Fabrication de cartonnages"},
+    {code:"17.21C",label:"Fabrication d'emballages en papier"},
+    {code:"17.22Z",label:"Fabrication d'articles en papier à usage sanitaire ou domestique"},
+    {code:"17.23Z",label:"Fabrication d'articles de papeterie"},
+    {code:"17.24Z",label:"Fabrication de papiers peints"},
+    {code:"17.29Z",label:"Fabrication d'autres articles en papier ou en carton"},
+    {code:"18.11Z",label:"Imprimerie de journaux"},
+    {code:"18.12Z",label:"Autre imprimerie (labeur)"},
+    {code:"18.13Z",label:"Activités de pré-presse"},
+    {code:"18.14Z",label:"Reliure et activités connexes"},
+    {code:"18.20Z",label:"Reproduction d'enregistrements"},
+    {code:"19.10Z",label:"Cokéfaction"},
+    {code:"19.20Z",label:"Raffinage du pétrole"},
+    {code:"20.11Z",label:"Fabrication de gaz industriels"},
+    {code:"20.12Z",label:"Fabrication de colorants et de pigments"},
+    {code:"20.13A",label:"Enrichissement et  retraitement de matières nucléaires"},
+    {code:"20.13B",label:"Fabrication d'autres produits chimiques inorganiques de base n.c.a."},
+    {code:"20.14Z",label:"Fabrication d'autres produits chimiques organiques de base"},
+    {code:"20.15Z",label:"Fabrication de produits azotés et d'engrais"},
+    {code:"20.16Z",label:"Fabrication de matières plastiques de base"},
+    {code:"20.17Z",label:"Fabrication de caoutchouc synthétique"},
+    {code:"20.20Z",label:"Fabrication de pesticides et d’autres produits agrochimiques"},
+    {code:"20.30Z",label:"Fabrication de peintures, vernis, encres et mastics"},
+    {code:"20.41Z",label:"Fabrication de savons, détergents et produits d'entretien"},
+    {code:"20.42Z",label:"Fabrication de parfums et de produits pour la toilette"},
+    {code:"20.51Z",label:"Fabrication de produits explosifs"},
+    {code:"20.52Z",label:"Fabrication de colles"},
+    {code:"20.53Z",label:"Fabrication d'huiles essentielles"},
+    {code:"20.59Z",label:"Fabrication d'autres produits chimiques n.c.a."},
+    {code:"20.60Z",label:"Fabrication de fibres artificielles ou synthétiques"},
+    {code:"21.10Z",label:"Fabrication de produits pharmaceutiques de base"},
+    {code:"21.20Z",label:"Fabrication de préparations pharmaceutiques"},
+    {code:"22.11Z",label:"Fabrication et rechapage de pneumatiques"},
+    {code:"22.19Z",label:"Fabrication d'autres articles en caoutchouc"},
+    {code:"22.21Z",label:"Fabrication de plaques, feuilles, tubes et profilés en matières plastiques"},
+    {code:"22.22Z",label:"Fabrication d'emballages en matières plastiques"},
+    {code:"22.23Z",label:"Fabrication d'éléments en matières plastiques pour la construction"},
+    {code:"22.29A",label:"Fabrication de pièces techniques à base de matières plastiques"},
+    {code:"22.29B",label:"Fabrication de produits de consommation courante en matières plastiques"},
+    {code:"23.11Z",label:"Fabrication de verre plat"},
+    {code:"23.12Z",label:"Façonnage et transformation du verre plat"},
+    {code:"23.13Z",label:"Fabrication de verre creux"},
+    {code:"23.14Z",label:"Fabrication de fibres de verre"},
+    {code:"23.19Z",label:"Fabrication et façonnage d'autres articles en verre, y compris verre technique"},
+    {code:"23.20Z",label:"Fabrication de produits réfractaires"},
+    {code:"23.31Z",label:"Fabrication de carreaux en céramique"},
+    {code:"23.32Z",label:"Fabrication de briques, tuiles et produits de construction, en terre cuite"},
+    {code:"23.41Z",label:"Fabrication d'articles céramiques à usage domestique ou ornemental"},
+    {code:"23.42Z",label:"Fabrication d'appareils sanitaires en céramique"},
+    {code:"23.43Z",label:"Fabrication d'isolateurs et pièces isolantes en céramique"},
+    {code:"23.44Z",label:"Fabrication d'autres produits céramiques à usage technique"},
+    {code:"23.49Z",label:"Fabrication d'autres produits céramiques"},
+    {code:"23.51Z",label:"Fabrication de ciment"},
+    {code:"23.52Z",label:"Fabrication de chaux et plâtre"},
+    {code:"23.61Z",label:"Fabrication d'éléments en béton pour la construction"},
+    {code:"23.62Z",label:"Fabrication d'éléments en plâtre pour la construction"},
+    {code:"23.63Z",label:"Fabrication de béton prêt à l'emploi"},
+    {code:"23.64Z",label:"Fabrication de mortiers et bétons secs"},
+    {code:"23.65Z",label:"Fabrication d'ouvrages en fibre-ciment"},
+    {code:"23.69Z",label:"Fabrication d'autres ouvrages en béton, en ciment ou en plâtre"},
+    {code:"23.70Z",label:"Taille, façonnage et finissage de pierres"},
+    {code:"23.91Z",label:"Fabrication de produits abrasifs"},
+    {code:"23.99Z",label:"Fabrication d'autres produits minéraux non métalliques n.c.a."},
+    {code:"24.10Z",label:"Sidérurgie"},
+    {code:"24.20Z",label:"Fabrication de tubes, tuyaux, profilés creux et accessoires correspondants en acier"},
+    {code:"24.31Z",label:"Étirage à froid de barres"},
+    {code:"24.32Z",label:"Laminage à froid de feuillards"},
+    {code:"24.33Z",label:"Profilage à froid par formage ou pliage"},
+    {code:"24.34Z",label:"Tréfilage à froid"},
+    {code:"24.41Z",label:"Production de métaux précieux"},
+    {code:"24.42Z",label:"Métallurgie de l'aluminium"},
+    {code:"24.43Z",label:"Métallurgie du plomb, du zinc ou de l'étain"},
+    {code:"24.44Z",label:"Métallurgie du cuivre"},
+    {code:"24.45Z",label:"Métallurgie des autres métaux non ferreux"},
+    {code:"24.46Z",label:"Élaboration et transformation de matières nucléaires"},
+    {code:"24.51Z",label:"Fonderie de fonte"},
+    {code:"24.52Z",label:"Fonderie d'acier"},
+    {code:"24.53Z",label:"Fonderie de métaux légers"},
+    {code:"24.54Z",label:"Fonderie d'autres métaux non ferreux"},
+    {code:"25.11Z",label:"Fabrication de structures métalliques et de parties de structures"},
+    {code:"25.12Z",label:"Fabrication de portes et fenêtres en métal"},
+    {code:"25.21Z",label:"Fabrication de radiateurs et de chaudières pour le chauffage central"},
+    {code:"25.29Z",label:"Fabrication d'autres réservoirs, citernes et conteneurs métalliques"},
+    {code:"25.30Z",label:"Fabrication de générateurs de vapeur, à l'exception des chaudières pour le chauffage central"},
+    {code:"25.40Z",label:"Fabrication d'armes et de munitions"},
+    {code:"25.50A",label:"Forge, estampage, matriçage ; métallurgie des poudres"},
+    {code:"25.50B",label:"Découpage, emboutissage"},
+    {code:"25.61Z",label:"Traitement et revêtement des métaux"},
+    {code:"25.62A",label:"Décolletage"},
+    {code:"25.62B",label:"Mécanique industrielle"},
+    {code:"25.71Z",label:"Fabrication de coutellerie"},
+    {code:"25.72Z",label:"Fabrication de serrures et de ferrures"},
+    {code:"25.73A",label:"Fabrication de moules et modèles"},
+    {code:"25.73B",label:"Fabrication d'autres outillages"},
+    {code:"25.91Z",label:"Fabrication de fûts et emballages métalliques similaires"},
+    {code:"25.92Z",label:"Fabrication d'emballages métalliques légers"},
+    {code:"25.93Z",label:"Fabrication d'articles en fils métalliques, de chaînes et de ressorts"},
+    {code:"25.94Z",label:"Fabrication de vis et de boulons"},
+    {code:"25.99A",label:"Fabrication d'articles métalliques ménagers"},
+    {code:"25.99B",label:"Fabrication d'autres articles métalliques"},
+    {code:"26.11Z",label:"Fabrication de composants électroniques"},
+    {code:"26.12Z",label:"Fabrication de cartes électroniques assemblées"},
+    {code:"26.20Z",label:"Fabrication d'ordinateurs et d'équipements périphériques"},
+    {code:"26.30Z",label:"Fabrication d'équipements de communication"},
+    {code:"26.40Z",label:"Fabrication de produits électroniques grand public"},
+    {code:"26.51A",label:"Fabrication d'équipements d'aide à la navigation"},
+    {code:"26.51B",label:"Fabrication d'instrumentation scientifique et technique"},
+    {code:"26.52Z",label:"Horlogerie"},
+    {code:"26.60Z",label:"Fabrication d'équipements d'irradiation médicale, d'équipements électromédicaux et électrothérapeutiques"},
+    {code:"26.70Z",label:"Fabrication de matériels optique et photographique"},
+    {code:"26.80Z",label:"Fabrication de supports magnétiques et optiques"},
+    {code:"27.11Z",label:"Fabrication de moteurs, génératrices et transformateurs électriques"},
+    {code:"27.12Z",label:"Fabrication de matériel de distribution et de commande électrique"},
+    {code:"27.20Z",label:"Fabrication de piles et d'accumulateurs électriques"},
+    {code:"27.31Z",label:"Fabrication de câbles de fibres optiques"},
+    {code:"27.32Z",label:"Fabrication d'autres fils et câbles électroniques ou électriques"},
+    {code:"27.33Z",label:"Fabrication de matériel d'installation électrique"},
+    {code:"27.40Z",label:"Fabrication d'appareils d'éclairage électrique"},
+    {code:"27.51Z",label:"Fabrication d'appareils électroménagers"},
+    {code:"27.52Z",label:"Fabrication d'appareils ménagers non électriques"},
+    {code:"27.90Z",label:"Fabrication d'autres matériels électriques"},
+    {code:"28.11Z",label:"Fabrication de moteurs et turbines, à l'exception des moteurs d’avions et de véhicules"},
+    {code:"28.12Z",label:"Fabrication d'équipements hydrauliques et pneumatiques"},
+    {code:"28.13Z",label:"Fabrication d'autres pompes et compresseurs"},
+    {code:"28.14Z",label:"Fabrication d'autres articles de robinetterie"},
+    {code:"28.15Z",label:"Fabrication d'engrenages et d'organes mécaniques de transmission"},
+    {code:"28.21Z",label:"Fabrication de fours et brûleurs"},
+    {code:"28.22Z",label:"Fabrication de matériel de levage et de manutention"},
+    {code:"28.23Z",label:"Fabrication de machines et d'équipements de bureau (à l'exception des ordinateurs et équipements périphériques)"},
+    {code:"28.24Z",label:"Fabrication d'outillage portatif à moteur incorporé"},
+    {code:"28.25Z",label:"Fabrication d'équipements aérauliques et frigorifiques industriels"},
+    {code:"28.29A",label:"Fabrication d'équipements d'emballage, de conditionnement et de pesage"},
+    {code:"28.29B",label:"Fabrication d'autres machines d'usage général"},
+    {code:"28.30Z",label:"Fabrication de machines agricoles et forestières"},
+    {code:"28.41Z",label:"Fabrication de machines-outils pour le travail des métaux"},
+    {code:"28.49Z",label:"Fabrication d'autres machines-outils"},
+    {code:"28.91Z",label:"Fabrication de machines pour la métallurgie"},
+    {code:"28.92Z",label:"Fabrication de machines pour l'extraction ou la construction"},
+    {code:"28.93Z",label:"Fabrication de machines pour l'industrie agro-alimentaire"},
+    {code:"28.94Z",label:"Fabrication de machines pour les industries textiles"},
+    {code:"28.95Z",label:"Fabrication de machines pour les industries du papier et du carton"},
+    {code:"28.96Z",label:"Fabrication de machines pour le travail du caoutchouc ou des plastiques"},
+    {code:"28.99A",label:"Fabrication de machines d'imprimerie"},
+    {code:"28.99B",label:"Fabrication d'autres machines spécialisées"},
+    {code:"29.10Z",label:"Construction de véhicules automobiles"},
+    {code:"29.20Z",label:"Fabrication de carrosseries et remorques"},
+    {code:"29.31Z",label:"Fabrication d'équipements électriques et électroniques automobiles"},
+    {code:"29.32Z",label:"Fabrication d'autres équipements automobiles"},
+    {code:"30.11Z",label:"Construction de navires et de structures flottantes"},
+    {code:"30.12Z",label:"Construction de bateaux de plaisance"},
+    {code:"30.20Z",label:"Construction de locomotives et d'autre matériel ferroviaire roulant"},
+    {code:"30.30Z",label:"Construction aéronautique et spatiale"},
+    {code:"30.40Z",label:"Construction de véhicules militaires de combat"},
+    {code:"30.91Z",label:"Fabrication de motocycles"},
+    {code:"30.92Z",label:"Fabrication de bicyclettes et de véhicules pour invalides"},
+    {code:"30.99Z",label:"Fabrication d’autres équipements de transport n.c.a."},
+    {code:"31.01Z",label:"Fabrication de meubles de bureau et de magasin"},
+    {code:"31.02Z",label:"Fabrication de meubles de cuisine"},
+    {code:"31.03Z",label:"Fabrication de matelas"},
+    {code:"31.09A",label:"Fabrication de sièges d'ameublement d'intérieur"},
+    {code:"31.09B",label:"Fabrication d’autres meubles et industries connexes de l’ameublement"},
+    {code:"32.11Z",label:"Frappe de monnaie"},
+    {code:"32.12Z",label:"Fabrication d’articles de joaillerie et bijouterie"},
+    {code:"32.13Z",label:"Fabrication d’articles de bijouterie fantaisie et articles similaires"},
+    {code:"32.20Z",label:"Fabrication d'instruments de musique"},
+    {code:"32.30Z",label:"Fabrication d'articles de sport"},
+    {code:"32.40Z",label:"Fabrication de jeux et jouets"},
+    {code:"32.50A",label:"Fabrication de matériel médico-chirurgical et dentaire"},
+    {code:"32.50B",label:"Fabrication de lunettes"},
+    {code:"32.91Z",label:"Fabrication d’articles de brosserie"},
+    {code:"32.99Z",label:"Autres activités manufacturières n.c.a."},
+    {code:"33.11Z",label:"Réparation d'ouvrages en métaux"},
+    {code:"33.12Z",label:"Réparation de machines et équipements mécaniques"},
+    {code:"33.13Z",label:"Réparation de matériels électroniques et optiques"},
+    {code:"33.14Z",label:"Réparation d'équipements électriques"},
+    {code:"33.15Z",label:"Réparation et maintenance navale"},
+    {code:"33.16Z",label:"Réparation et maintenance d'aéronefs et d'engins spatiaux"},
+    {code:"33.17Z",label:"Réparation et maintenance d'autres équipements de transport"},
+    {code:"33.19Z",label:"Réparation d'autres équipements"},
+    {code:"33.20A",label:"Installation de structures métalliques, chaudronnées et de tuyauterie"},
+    {code:"33.20B",label:"Installation de machines et équipements mécaniques"},
+    {code:"33.20C",label:"Conception d'ensemble et assemblage sur site industriel d'équipements de contrôle des processus industriels"},
+    {code:"33.20D",label:"Installation d'équipements électriques, de matériels électroniques et optiques ou d'autres matériels"}
+  ]},
+  { id:"D", label:"Production et distribution d'électricité, de gaz, de vapeur et d'air conditionné", codes:[
+    {code:"35.11Z",label:"Production d'électricité"},
+    {code:"35.12Z",label:"Transport d'électricité"},
+    {code:"35.13Z",label:"Distribution d'électricité"},
+    {code:"35.14Z",label:"Commerce d'électricité"},
+    {code:"35.21Z",label:"Production de combustibles gazeux"},
+    {code:"35.22Z",label:"Distribution de combustibles gazeux par conduites"},
+    {code:"35.23Z",label:"Commerce de combustibles gazeux par conduites"},
+    {code:"35.30Z",label:"Production et distribution de vapeur et d'air conditionné"}
+  ]},
+  { id:"E", label:"Production et distribution d'eau ; assainissement, gestion des déchets et dépollution", codes:[
+    {code:"36.00Z",label:"Captage, traitement et distribution d'eau"},
+    {code:"37.00Z",label:"Collecte et traitement des eaux usées"},
+    {code:"38.11Z",label:"Collecte des déchets non dangereux"},
+    {code:"38.12Z",label:"Collecte des déchets dangereux"},
+    {code:"38.21Z",label:"Traitement et élimination des déchets non dangereux"},
+    {code:"38.22Z",label:"Traitement et élimination des déchets dangereux"},
+    {code:"38.31Z",label:"Démantèlement d'épaves"},
+    {code:"38.32Z",label:"Récupération de déchets triés"},
+    {code:"39.00Z",label:"Dépollution et autres services de gestion des déchets"}
+  ]},
+  { id:"F", label:"Construction", codes:[
+    {code:"41.10A",label:"Promotion immobilière de logements"},
+    {code:"41.10B",label:"Promotion immobilière de bureaux"},
+    {code:"41.10C",label:"Promotion immobilière d'autres bâtiments"},
+    {code:"41.10D",label:"Supports juridiques de programmes"},
+    {code:"41.20A",label:"Construction de maisons individuelles"},
+    {code:"41.20B",label:"Construction d'autres bâtiments"},
+    {code:"42.11Z",label:"Construction de routes et autoroutes"},
+    {code:"42.12Z",label:"Construction de voies ferrées de surface et souterraines"},
+    {code:"42.13A",label:"Construction d'ouvrages d'art"},
+    {code:"42.13B",label:"Construction et entretien de tunnels"},
+    {code:"42.21Z",label:"Construction de réseaux pour fluides"},
+    {code:"42.22Z",label:"Construction de réseaux électriques et de télécommunications"},
+    {code:"42.91Z",label:"Construction d'ouvrages maritimes et fluviaux"},
+    {code:"42.99Z",label:"Construction d'autres ouvrages de génie civil n.c.a."},
+    {code:"43.11Z",label:"Travaux de démolition"},
+    {code:"43.12A",label:"Travaux de terrassement courants et travaux préparatoires"},
+    {code:"43.12B",label:"Travaux de terrassement spécialisés ou de grande masse"},
+    {code:"43.13Z",label:"Forages et sondages"},
+    {code:"43.21A",label:"Travaux d'installation électrique dans tous locaux"},
+    {code:"43.21B",label:"Travaux d'installation électrique sur la voie publique"},
+    {code:"43.22A",label:"Travaux d'installation d'eau et de gaz en tous locaux"},
+    {code:"43.22B",label:"Travaux d'installation d'équipements thermiques et de climatisation"},
+    {code:"43.29A",label:"Travaux d'isolation"},
+    {code:"43.29B",label:"Autres travaux d'installation n.c.a."},
+    {code:"43.31Z",label:"Travaux de plâtrerie"},
+    {code:"43.32A",label:"Travaux de menuiserie bois et PVC"},
+    {code:"43.32B",label:"Travaux de menuiserie métallique et serrurerie"},
+    {code:"43.32C",label:"Agencement de lieux de vente"},
+    {code:"43.33Z",label:"Travaux de revêtement des sols et des murs"},
+    {code:"43.34Z",label:"Travaux de peinture et vitrerie"},
+    {code:"43.39Z",label:"Autres travaux de finition"},
+    {code:"43.91A",label:"Travaux de charpente"},
+    {code:"43.91B",label:"Travaux de couverture par éléments"},
+    {code:"43.99A",label:"Travaux d'étanchéification"},
+    {code:"43.99B",label:"Travaux de montage de structures métalliques"},
+    {code:"43.99C",label:"Travaux de maçonnerie générale et gros œuvre de bâtiment"},
+    {code:"43.99D",label:"Autres travaux spécialisés de construction"},
+    {code:"43.99E",label:"Location avec opérateur de matériel de construction"}
+  ]},
+  { id:"G", label:"Commerce ; réparation d'automobiles et de motocycles", codes:[
+    {code:"45.11Z",label:"Commerce de voitures et de véhicules automobiles légers"},
+    {code:"45.19Z",label:"Commerce d'autres véhicules automobiles"},
+    {code:"45.20A",label:"Entretien et réparation de véhicules automobiles légers"},
+    {code:"45.20B",label:"Entretien et réparation d'autres véhicules automobiles"},
+    {code:"45.31Z",label:"Commerce de gros d'équipements automobiles"},
+    {code:"45.32Z",label:"Commerce de détail d'équipements automobiles"},
+    {code:"45.40Z",label:"Commerce et réparation de motocycles"},
+    {code:"46.11Z",label:"Intermédiaires du commerce en matières premières agricoles, animaux vivants, matières premières textiles et produits semi-finis"},
+    {code:"46.12A",label:"Centrales d'achat de carburant"},
+    {code:"46.12B",label:"Autres intermédiaires du commerce en combustibles, métaux, minéraux et produits chimiques"},
+    {code:"46.13Z",label:"Intermédiaires du commerce en bois et matériaux de construction"},
+    {code:"46.14Z",label:"Intermédiaires du commerce en machines, équipements industriels, navires et avions"},
+    {code:"46.15Z",label:"Intermédiaires du commerce en meubles, articles de ménage et quincaillerie"},
+    {code:"46.16Z",label:"Intermédiaires du commerce en textiles, habillement, fourrures, chaussures et articles en cuir"},
+    {code:"46.17A",label:"Centrales d'achat alimentaires"},
+    {code:"46.17B",label:"Autres intermédiaires du commerce en denrées, boissons et tabac"},
+    {code:"46.18Z",label:"Intermédiaires spécialisés dans le commerce d'autres produits spécifiques"},
+    {code:"46.19A",label:"Centrales d'achat non alimentaires"},
+    {code:"46.19B",label:"Autres intermédiaires du commerce en produits divers"},
+    {code:"46.21Z",label:"Commerce de gros (commerce interentreprises) de céréales, de tabac non manufacturé, de semences et d'aliments pour le bétail"},
+    {code:"46.22Z",label:"Commerce de gros (commerce interentreprises) de fleurs et plantes"},
+    {code:"46.23Z",label:"Commerce de gros (commerce interentreprises) d'animaux vivants"},
+    {code:"46.24Z",label:"Commerce de gros (commerce interentreprises) de cuirs et peaux"},
+    {code:"46.31Z",label:"Commerce de gros (commerce interentreprises) de fruits et légumes"},
+    {code:"46.32A",label:"Commerce de gros (commerce interentreprises) de viandes de boucherie"},
+    {code:"46.32B",label:"Commerce de gros (commerce interentreprises) de produits à base de viande"},
+    {code:"46.32C",label:"Commerce de gros (commerce interentreprises) de volailles et gibier"},
+    {code:"46.33Z",label:"Commerce de gros (commerce interentreprises) de produits laitiers, œufs, huiles et matières grasses comestibles"},
+    {code:"46.34Z",label:"Commerce de gros (commerce interentreprises) de boissons"},
+    {code:"46.35Z",label:"Commerce de gros (commerce interentreprises) de produits à base de tabac"},
+    {code:"46.36Z",label:"Commerce de gros (commerce interentreprises) de sucre, chocolat et confiserie"},
+    {code:"46.37Z",label:"Commerce de gros (commerce interentreprises) de café, thé, cacao et épices"},
+    {code:"46.38A",label:"Commerce de gros (commerce interentreprises) de poissons, crustacés et mollusques"},
+    {code:"46.38B",label:"Commerce de gros (commerce interentreprises) alimentaire spécialisé divers"},
+    {code:"46.39A",label:"Commerce de gros (commerce interentreprises) de produits surgelés"},
+    {code:"46.39B",label:"Commerce de gros (commerce interentreprises) alimentaire non spécialisé"},
+    {code:"46.41Z",label:"Commerce de gros (commerce interentreprises) de textiles"},
+    {code:"46.42Z",label:"Commerce de gros (commerce interentreprises) d'habillement et de chaussures"},
+    {code:"46.43Z",label:"Commerce de gros (commerce interentreprises) d'appareils électroménagers"},
+    {code:"46.44Z",label:"Commerce de gros (commerce interentreprises) de vaisselle, verrerie et produits d'entretien"},
+    {code:"46.45Z",label:"Commerce de gros (commerce interentreprises) de parfumerie et de produits de beauté"},
+    {code:"46.46Z",label:"Commerce de gros (commerce interentreprises) de produits pharmaceutiques"},
+    {code:"46.47Z",label:"Commerce de gros (commerce interentreprises) de meubles, de tapis et d'appareils d'éclairage"},
+    {code:"46.48Z",label:"Commerce de gros (commerce interentreprises) d'articles d'horlogerie et de bijouterie"},
+    {code:"46.49Z",label:"Commerce de gros (commerce interentreprises) d'autres biens domestiques"},
+    {code:"46.51Z",label:"Commerce de gros (commerce interentreprises) d'ordinateurs, d'équipements informatiques périphériques et de logiciels"},
+    {code:"46.52Z",label:"Commerce de gros (commerce interentreprises) de composants et d'équipements électroniques et de télécommunication"},
+    {code:"46.61Z",label:"Commerce de gros (commerce interentreprises) de matériel agricole"},
+    {code:"46.62Z",label:"Commerce de gros (commerce interentreprises) de machines-outils"},
+    {code:"46.63Z",label:"Commerce de gros (commerce interentreprises) de machines pour l'extraction, la construction et le génie civil"},
+    {code:"46.64Z",label:"Commerce de gros (commerce interentreprises) de machines pour l'industrie textile et l'habillement"},
+    {code:"46.65Z",label:"Commerce de gros (commerce interentreprises) de mobilier de bureau"},
+    {code:"46.66Z",label:"Commerce de gros (commerce interentreprises) d'autres machines et équipements de bureau"},
+    {code:"46.69A",label:"Commerce de gros (commerce interentreprises) de matériel électrique"},
+    {code:"46.69B",label:"Commerce de gros (commerce interentreprises) de fournitures et équipements industriels divers"},
+    {code:"46.69C",label:"Commerce de gros (commerce interentreprises) de fournitures et équipements divers pour le commerce et les services"},
+    {code:"46.71Z",label:"Commerce de gros (commerce interentreprises) de combustibles et de produits annexes"},
+    {code:"46.72Z",label:"Commerce de gros (commerce interentreprises) de minerais et métaux"},
+    {code:"46.73A",label:"Commerce de gros (commerce interentreprises) de bois et de matériaux de construction"},
+    {code:"46.73B",label:"Commerce de gros (commerce interentreprises) d'appareils sanitaires et de produits de décoration"},
+    {code:"46.74A",label:"Commerce de gros (commerce interentreprises) de quincaillerie"},
+    {code:"46.74B",label:"Commerce de gros (commerce interentreprises) de fournitures pour la plomberie et le chauffage"},
+    {code:"46.75Z",label:"Commerce de gros (commerce interentreprises) de produits chimiques"},
+    {code:"46.76Z",label:"Commerce de gros (commerce interentreprises) d'autres produits intermédiaires"},
+    {code:"46.77Z",label:"Commerce de gros (commerce interentreprises) de déchets et débris"},
+    {code:"46.90Z",label:"Commerce de gros (commerce interentreprises) non spécialisé"},
+    {code:"47.11A",label:"Commerce de détail de produits surgelés"},
+    {code:"47.11B",label:"Commerce d'alimentation générale"},
+    {code:"47.11C",label:"Supérettes"},
+    {code:"47.11D",label:"Supermarchés"},
+    {code:"47.11E",label:"Magasins multi-commerces"},
+    {code:"47.11F",label:"Hypermarchés"},
+    {code:"47.19A",label:"Grands magasins"},
+    {code:"47.19B",label:"Autres commerces de détail en magasin non spécialisé"},
+    {code:"47.21Z",label:"Commerce de détail de fruits et légumes en magasin spécialisé"},
+    {code:"47.22Z",label:"Commerce de détail de viandes et de produits à base de viande en magasin spécialisé"},
+    {code:"47.23Z",label:"Commerce de détail de poissons, crustacés et mollusques en magasin spécialisé"},
+    {code:"47.24Z",label:"Commerce de détail de pain, pâtisserie et confiserie en magasin spécialisé"},
+    {code:"47.25Z",label:"Commerce de détail de boissons en magasin spécialisé"},
+    {code:"47.26Z",label:"Commerce de détail de produits à base de tabac en magasin spécialisé"},
+    {code:"47.29Z",label:"Autres commerces de détail alimentaires en magasin spécialisé"},
+    {code:"47.30Z",label:"Commerce de détail de carburants en magasin spécialisé"},
+    {code:"47.41Z",label:"Commerce de détail d'ordinateurs, d'unités périphériques et de logiciels en magasin spécialisé"},
+    {code:"47.42Z",label:"Commerce de détail de matériels de télécommunication en magasin spécialisé"},
+    {code:"47.43Z",label:"Commerce de détail de matériels audio et vidéo en magasin spécialisé"},
+    {code:"47.51Z",label:"Commerce de détail de textiles en magasin spécialisé"},
+    {code:"47.52A",label:"Commerce de détail de quincaillerie, peintures et verres en petites surfaces (moins de 400 m2)"},
+    {code:"47.52B",label:"Commerce de détail de quincaillerie, peintures et verres en grandes surfaces (400 m2et plus)"},
+    {code:"47.53Z",label:"Commerce de détail de tapis, moquettes et revêtements de murs et de sols en magasin spécialisé"},
+    {code:"47.54Z",label:"Commerce de détail d'appareils électroménagers en magasin spécialisé"},
+    {code:"47.59A",label:"Commerce de détail de meubles"},
+    {code:"47.59B",label:"Commerce de détail d'autres équipements du foyer"},
+    {code:"47.61Z",label:"Commerce de détail de livres en magasin spécialisé"},
+    {code:"47.62Z",label:"Commerce de détail de journaux et papeterie en magasin spécialisé"},
+    {code:"47.63Z",label:"Commerce de détail d'enregistrements musicaux et vidéo en magasin spécialisé"},
+    {code:"47.64Z",label:"Commerce de détail d'articles de sport en magasin spécialisé"},
+    {code:"47.65Z",label:"Commerce de détail de jeux et jouets en magasin spécialisé"},
+    {code:"47.71Z",label:"Commerce de détail d'habillement en magasin spécialisé"},
+    {code:"47.72A",label:"Commerce de détail de la chaussure"},
+    {code:"47.72B",label:"Commerce de détail de maroquinerie et d'articles de voyage"},
+    {code:"47.73Z",label:"Commerce de détail de produits pharmaceutiques en magasin spécialisé"},
+    {code:"47.74Z",label:"Commerce de détail d'articles médicaux et orthopédiques en magasin spécialisé"},
+    {code:"47.75Z",label:"Commerce de détail de parfumerie et de produits de beauté en magasin spécialisé"},
+    {code:"47.76Z",label:"Commerce de détail de fleurs, plantes, graines, engrais, animaux de compagnie et aliments pour ces animaux en magasin spécialisé"},
+    {code:"47.77Z",label:"Commerce de détail d'articles d'horlogerie et de bijouterie en magasin spécialisé"},
+    {code:"47.78A",label:"Commerces de détail d'optique"},
+    {code:"47.78B",label:"Commerces de détail de charbons et combustibles"},
+    {code:"47.78C",label:"Autres commerces de détail spécialisés divers"},
+    {code:"47.79Z",label:"Commerce de détail de biens d'occasion en magasin"},
+    {code:"47.81Z",label:"Commerce de détail alimentaire sur éventaires et marchés"},
+    {code:"47.82Z",label:"Commerce de détail de textiles, d'habillement et de chaussures sur éventaires et marchés"},
+    {code:"47.89Z",label:"Autres commerces de détail sur éventaires et marchés"},
+    {code:"47.91A",label:"Vente à distance sur catalogue général"},
+    {code:"47.91B",label:"Vente à distance sur catalogue spécialisé"},
+    {code:"47.99A",label:"Vente à domicile"},
+    {code:"47.99B",label:"Vente par automates et autres commerces de détail hors magasin, éventaires ou marchés n.c.a."}
+  ]},
+  { id:"H", label:"Transports et entreposage", codes:[
+    {code:"49.10Z",label:"Transport ferroviaire interurbain de voyageurs"},
+    {code:"49.20Z",label:"Transports ferroviaires de fret"},
+    {code:"49.31Z",label:"Transports urbains et suburbains de voyageurs"},
+    {code:"49.32Z",label:"Transports de voyageurs par taxis"},
+    {code:"49.39A",label:"Transports routiers réguliers de voyageurs"},
+    {code:"49.39B",label:"Autres transports routiers de voyageurs"},
+    {code:"49.39C",label:"Téléphériques et remontées mécaniques"},
+    {code:"49.41A",label:"Transports routiers de fret interurbains"},
+    {code:"49.41B",label:"Transports routiers de fret de proximité"},
+    {code:"49.41C",label:"Location de camions avec chauffeur"},
+    {code:"49.42Z",label:"Services de déménagement"},
+    {code:"49.50Z",label:"Transports par conduites"},
+    {code:"50.10Z",label:"Transports maritimes et côtiers de passagers"},
+    {code:"50.20Z",label:"Transports maritimes et côtiers de fret"},
+    {code:"50.30Z",label:"Transports fluviaux de passagers"},
+    {code:"50.40Z",label:"Transports fluviaux de fret"},
+    {code:"51.10Z",label:"Transports aériens de passagers"},
+    {code:"51.21Z",label:"Transports aériens de fret"},
+    {code:"51.22Z",label:"Transports spatiaux"},
+    {code:"52.10A",label:"Entreposage et stockage frigorifique"},
+    {code:"52.10B",label:"Entreposage et stockage non frigorifique"},
+    {code:"52.21Z",label:"Services auxiliaires des transports terrestres"},
+    {code:"52.22Z",label:"Services auxiliaires des transports par eau"},
+    {code:"52.23Z",label:"Services auxiliaires des transports aériens"},
+    {code:"52.24A",label:"Manutention portuaire"},
+    {code:"52.24B",label:"Manutention non portuaire"},
+    {code:"52.29A",label:"Messagerie, fret express"},
+    {code:"52.29B",label:"Affrètement et organisation des transports"},
+    {code:"53.10Z",label:"Activités de poste dans le cadre d'une obligation de service universel"},
+    {code:"53.20Z",label:"Autres activités de poste et de courrier"}
+  ]},
+  { id:"I", label:"Hébergement et restauration", codes:[
+    {code:"55.10Z",label:"Hôtels et hébergement similaire"},
+    {code:"55.20Z",label:"Hébergement touristique et autre hébergement de courte durée"},
+    {code:"55.30Z",label:"Terrains de camping et parcs pour caravanes ou véhicules de loisirs"},
+    {code:"55.90Z",label:"Autres hébergements"},
+    {code:"56.10A",label:"Restauration traditionnelle"},
+    {code:"56.10B",label:"Cafétérias et autres libres-services"},
+    {code:"56.10C",label:"Restauration de type rapide"},
+    {code:"56.21Z",label:"Services des traiteurs"},
+    {code:"56.29A",label:"Restauration collective sous contrat"},
+    {code:"56.29B",label:"Autres services de restauration n.c.a."},
+    {code:"56.30Z",label:"Débits de boissons"}
+  ]},
+  { id:"J", label:"Information et communication", codes:[
+    {code:"58.11Z",label:"Édition de livres"},
+    {code:"58.12Z",label:"Édition de répertoires et de fichiers d'adresses"},
+    {code:"58.13Z",label:"Édition de journaux"},
+    {code:"58.14Z",label:"Édition de revues et périodiques"},
+    {code:"58.19Z",label:"Autres activités d'édition"},
+    {code:"58.21Z",label:"Édition de jeux électroniques"},
+    {code:"58.29A",label:"Édition de logiciels système et de réseau"},
+    {code:"58.29B",label:"Edition de logiciels outils de développement et de langages"},
+    {code:"58.29C",label:"Edition de logiciels applicatifs"},
+    {code:"59.11A",label:"Production de films et de programmes pour la télévision"},
+    {code:"59.11B",label:"Production de films institutionnels et publicitaires"},
+    {code:"59.11C",label:"Production de films pour le cinéma"},
+    {code:"59.12Z",label:"Post-production de films cinématographiques, de vidéo et de programmes de télévision"},
+    {code:"59.13A",label:"Distribution de films cinématographiques"},
+    {code:"59.13B",label:"Edition et distribution vidéo"},
+    {code:"59.14Z",label:"Projection de films cinématographiques"},
+    {code:"59.20Z",label:"Enregistrement sonore et édition musicale"},
+    {code:"60.10Z",label:"Édition et diffusion de programmes radio"},
+    {code:"60.20A",label:"Edition de chaînes généralistes"},
+    {code:"60.20B",label:"Edition de chaînes thématiques"},
+    {code:"61.10Z",label:"Télécommunications filaires"},
+    {code:"61.20Z",label:"Télécommunications sans fil"},
+    {code:"61.30Z",label:"Télécommunications par satellite"},
+    {code:"61.90Z",label:"Autres activités de télécommunication"},
+    {code:"62.01Z",label:"Programmation informatique"},
+    {code:"62.02A",label:"Conseil en systèmes et logiciels informatiques"},
+    {code:"62.02B",label:"Tierce maintenance de systèmes et d’applications informatiques"},
+    {code:"62.03Z",label:"Gestion d'installations informatiques"},
+    {code:"62.09Z",label:"Autres activités informatiques"},
+    {code:"63.11Z",label:"Traitement de données, hébergement et activités connexes"},
+    {code:"63.12Z",label:"Portails Internet"},
+    {code:"63.91Z",label:"Activités des agences de presse"},
+    {code:"63.99Z",label:"Autres services d'information n.c.a."}
+  ]},
+  { id:"K", label:"Activités financières et d'assurance", codes:[
+    {code:"64.11Z",label:"Activités de banque centrale"},
+    {code:"64.19Z",label:"Autres intermédiations monétaires"},
+    {code:"64.20Z",label:"Activités des sociétés holding"},
+    {code:"64.30Z",label:"Fonds de placement et entités financières similaires"},
+    {code:"64.91Z",label:"Crédit-bail"},
+    {code:"64.92Z",label:"Autre distribution de crédit"},
+    {code:"64.99Z",label:"Autres activités des services financiers, hors assurance et caisses de retraite, n.c.a."},
+    {code:"65.11Z",label:"Assurance vie"},
+    {code:"65.12Z",label:"Autres assurances"},
+    {code:"65.20Z",label:"Réassurance"},
+    {code:"65.30Z",label:"Caisses de retraite"},
+    {code:"66.11Z",label:"Administration de marchés financiers"},
+    {code:"66.12Z",label:"Courtage de valeurs mobilières et de marchandises"},
+    {code:"66.19A",label:"Supports juridiques de gestion de patrimoine mobilier"},
+    {code:"66.19B",label:"Autres activités auxiliaires de services financiers, hors assurance et caisses de retraite, n.c.a."},
+    {code:"66.21Z",label:"Évaluation des risques et dommages"},
+    {code:"66.22Z",label:"Activités des agents et courtiers d'assurances"},
+    {code:"66.29Z",label:"Autres activités auxiliaires d'assurance et de caisses de retraite"},
+    {code:"66.30Z",label:"Gestion de fonds"}
+  ]},
+  { id:"L", label:"Activités immobilières", codes:[
+    {code:"68.10Z",label:"Activités des marchands de biens immobiliers"},
+    {code:"68.20A",label:"Location de logements"},
+    {code:"68.20B",label:"Location de terrains et d'autres biens immobiliers"},
+    {code:"68.31Z",label:"Agences immobilières"},
+    {code:"68.32A",label:"Administration d'immeubles et autres biens immobiliers"},
+    {code:"68.32B",label:"Supports juridiques de gestion de patrimoine immobilier"}
+  ]},
+  { id:"M", label:"Activités spécialisées, scientifiques et techniques", codes:[
+    {code:"69.10Z",label:"Activités juridiques"},
+    {code:"69.20Z",label:"Activités comptables"},
+    {code:"70.10Z",label:"Activités des sièges sociaux"},
+    {code:"70.21Z",label:"Conseil en relations publiques et communication"},
+    {code:"70.22Z",label:"Conseil pour les affaires et autres conseils de gestion"},
+    {code:"71.11Z",label:"Activités d'architecture"},
+    {code:"71.12A",label:"Activité des géomètres"},
+    {code:"71.12B",label:"Ingénierie, études techniques"},
+    {code:"71.20A",label:"Contrôle technique automobile"},
+    {code:"71.20B",label:"Analyses, essais et inspections techniques"},
+    {code:"72.11Z",label:"Recherche-développement en biotechnologie"},
+    {code:"72.19Z",label:"Recherche-développement en autres sciences physiques et naturelles"},
+    {code:"72.20Z",label:"Recherche-développement en sciences humaines et sociales"},
+    {code:"73.11Z",label:"Activités des agences de publicité"},
+    {code:"73.12Z",label:"Régie publicitaire de médias"},
+    {code:"73.20Z",label:"Études de marché et sondages"},
+    {code:"74.10Z",label:"Activités spécialisées de design"},
+    {code:"74.20Z",label:"Activités photographiques"},
+    {code:"74.30Z",label:"Traduction et interprétation"},
+    {code:"74.90A",label:"Activité des économistes de la construction"},
+    {code:"74.90B",label:"Activités spécialisées, scientifiques et techniques diverses"},
+    {code:"75.00Z",label:"Activités vétérinaires"}
+  ]},
+  { id:"N", label:"Activités de services administratifs et de soutien", codes:[
+    {code:"77.11A",label:"Location de courte durée de voitures et de véhicules automobiles légers"},
+    {code:"77.11B",label:"Location de longue durée de voitures et de véhicules automobiles légers"},
+    {code:"77.12Z",label:"Location et location-bail de camions"},
+    {code:"77.21Z",label:"Location et location-bail d'articles de loisirs et de sport"},
+    {code:"77.22Z",label:"Location de vidéocassettes et disques vidéo"},
+    {code:"77.29Z",label:"Location et location-bail d'autres biens personnels et domestiques"},
+    {code:"77.31Z",label:"Location et location-bail de machines et équipements agricoles"},
+    {code:"77.32Z",label:"Location et location-bail de machines et équipements pour la construction"},
+    {code:"77.33Z",label:"Location et location-bail de machines de bureau et de matériel informatique"},
+    {code:"77.34Z",label:"Location et location-bail de matériels de transport par eau"},
+    {code:"77.35Z",label:"Location et location-bail de matériels de transport aérien"},
+    {code:"77.39Z",label:"Location et location-bail d'autres machines, équipements et biens matériels n.c.a."},
+    {code:"77.40Z",label:"Location-bail de propriété intellectuelle et de produits similaires, à l'exception des œuvres soumises à copyright"},
+    {code:"78.10Z",label:"Activités des agences de placement de main-d'œuvre"},
+    {code:"78.20Z",label:"Activités des agences de travail temporaire"},
+    {code:"78.30Z",label:"Autre mise à disposition de ressources humaines"},
+    {code:"79.11Z",label:"Activités des agences de voyage"},
+    {code:"79.12Z",label:"Activités des voyagistes"},
+    {code:"79.90Z",label:"Autres services de réservation et activités connexes"},
+    {code:"80.10Z",label:"Activités de sécurité privée"},
+    {code:"80.20Z",label:"Activités liées aux systèmes de sécurité"},
+    {code:"80.30Z",label:"Activités d'enquête"},
+    {code:"81.10Z",label:"Activités combinées de soutien lié aux bâtiments"},
+    {code:"81.21Z",label:"Nettoyage courant des bâtiments"},
+    {code:"81.22Z",label:"Autres activités de nettoyage des bâtiments et nettoyage industriel"},
+    {code:"81.29A",label:"Désinfection, désinsectisation, dératisation"},
+    {code:"81.29B",label:"Autres activités de nettoyage n.c.a."},
+    {code:"81.30Z",label:"Services d'aménagement paysager"},
+    {code:"82.11Z",label:"Services administratifs combinés de bureau"},
+    {code:"82.19Z",label:"Photocopie, préparation de documents et autres activités spécialisées de soutien de bureau"},
+    {code:"82.20Z",label:"Activités de centres d'appels"},
+    {code:"82.30Z",label:"Organisation de foires, salons professionnels et congrès"},
+    {code:"82.91Z",label:"Activités des agences de recouvrement de factures et des sociétés d'information financière sur la clientèle"},
+    {code:"82.92Z",label:"Activités de conditionnement"},
+    {code:"82.99Z",label:"Autres activités de soutien aux entreprises n.c.a."}
+  ]},
+  { id:"O", label:"Administration publique et défense ; sécurité sociale obligatoire", codes:[
+    {code:"84.11Z",label:"Administration publique générale"},
+    {code:"84.12Z",label:"Administration publique (tutelle) de la santé, de la formation, de la culture et des services sociaux, autre que sécurité sociale"},
+    {code:"84.13Z",label:"Administration publique (tutelle) des activités économiques"},
+    {code:"84.21Z",label:"Affaires étrangères"},
+    {code:"84.22Z",label:"Défense"},
+    {code:"84.23Z",label:"Justice"},
+    {code:"84.24Z",label:"Activités d’ordre public et de sécurité"},
+    {code:"84.25Z",label:"Services du feu et de secours"},
+    {code:"84.30A",label:"Activités générales de sécurité sociale"},
+    {code:"84.30B",label:"Gestion des retraites complémentaires"},
+    {code:"84.30C",label:"Distribution sociale de revenus"}
+  ]},
+  { id:"P", label:"Enseignement", codes:[
+    {code:"85.10Z",label:"Enseignement pré-primaire"},
+    {code:"85.20Z",label:"Enseignement primaire"},
+    {code:"85.31Z",label:"Enseignement secondaire général"},
+    {code:"85.32Z",label:"Enseignement secondaire technique ou professionnel"},
+    {code:"85.41Z",label:"Enseignement post-secondaire non supérieur"},
+    {code:"85.42Z",label:"Enseignement supérieur"},
+    {code:"85.51Z",label:"Enseignement de disciplines sportives et d'activités de loisirs"},
+    {code:"85.52Z",label:"Enseignement culturel"},
+    {code:"85.53Z",label:"Enseignement de la conduite"},
+    {code:"85.59A",label:"Formation continue d'adultes"},
+    {code:"85.59B",label:"Autres enseignements"},
+    {code:"85.60Z",label:"Activités de soutien à l'enseignement"}
+  ]},
+  { id:"Q", label:"Santé humaine et action sociale", codes:[
+    {code:"86.10Z",label:"Activités hospitalières"},
+    {code:"86.21Z",label:"Activité des médecins généralistes"},
+    {code:"86.22A",label:"Activités de radiodiagnostic et de radiothérapie"},
+    {code:"86.22B",label:"Activités chirurgicales"},
+    {code:"86.22C",label:"Autres activités des médecins spécialistes"},
+    {code:"86.23Z",label:"Pratique dentaire"},
+    {code:"86.90A",label:"Ambulances"},
+    {code:"86.90B",label:"Laboratoires d'analyses médicales"},
+    {code:"86.90C",label:"Centres de collecte et banques d'organes"},
+    {code:"86.90D",label:"Activités des infirmiers et des sages-femmes"},
+    {code:"86.90E",label:"Activités des professionnels de la rééducation, de l’appareillage et des pédicures-podologues"},
+    {code:"86.90F",label:"Activités de santé humaine non classées ailleurs"},
+    {code:"87.10A",label:"Hébergement médicalisé pour personnes âgées"},
+    {code:"87.10B",label:"Hébergement médicalisé pour enfants handicapés"},
+    {code:"87.10C",label:"Hébergement médicalisé pour adultes handicapés et autre hébergement médicalisé"},
+    {code:"87.20A",label:"Hébergement social pour handicapés mentaux et malades mentaux"},
+    {code:"87.20B",label:"Hébergement social pour toxicomanes"},
+    {code:"87.30A",label:"Hébergement social pour personnes âgées"},
+    {code:"87.30B",label:"Hébergement social pour handicapés  physiques"},
+    {code:"87.90A",label:"Hébergement social pour enfants en difficultés"},
+    {code:"87.90B",label:"Hébergement social pour adultes et familles en difficultés et autre hébergement social"},
+    {code:"88.10A",label:"Aide à domicile"},
+    {code:"88.10B",label:"Accueil ou accompagnement sans hébergement d’adultes handicapés ou de  personnes âgées"},
+    {code:"88.10C",label:"Aide par le travail"},
+    {code:"88.91A",label:"Accueil de jeunes enfants"},
+    {code:"88.91B",label:"Accueil ou accompagnement sans hébergement d’enfants handicapés"},
+    {code:"88.99A",label:"Autre accueil ou accompagnement sans hébergement d’enfants et d’adolescents"},
+    {code:"88.99B",label:"Action sociale sans hébergement n.c.a."}
+  ]},
+  { id:"R", label:"Arts, spectacles et activités récréatives", codes:[
+    {code:"90.01Z",label:"Arts du spectacle vivant"},
+    {code:"90.02Z",label:"Activités de soutien au spectacle vivant"},
+    {code:"90.03A",label:"Création artistique relevant des arts plastiques"},
+    {code:"90.03B",label:"Autre création artistique"},
+    {code:"90.04Z",label:"Gestion de salles de spectacles"},
+    {code:"91.01Z",label:"Gestion des bibliothèques et des archives"},
+    {code:"91.02Z",label:"Gestion des musées"},
+    {code:"91.03Z",label:"Gestion des sites et monuments historiques et des attractions touristiques similaires"},
+    {code:"91.04Z",label:"Gestion des jardins botaniques et zoologiques et des réserves naturelles"},
+    {code:"92.00Z",label:"Organisation de jeux de hasard et d'argent"},
+    {code:"93.11Z",label:"Gestion d'installations sportives"},
+    {code:"93.12Z",label:"Activités de clubs de sports"},
+    {code:"93.13Z",label:"Activités des centres de culture physique"},
+    {code:"93.19Z",label:"Autres activités liées au sport"},
+    {code:"93.21Z",label:"Activités des parcs d'attractions et parcs à thèmes"},
+    {code:"93.29Z",label:"Autres activités récréatives et de loisirs"}
+  ]},
+  { id:"S", label:"Autres activités de services", codes:[
+    {code:"94.11Z",label:"Activités des organisations patronales et consulaires"},
+    {code:"94.12Z",label:"Activités des organisations professionnelles"},
+    {code:"94.20Z",label:"Activités des syndicats de salariés"},
+    {code:"94.91Z",label:"Activités des organisations religieuses"},
+    {code:"94.92Z",label:"Activités des organisations politiques"},
+    {code:"94.99Z",label:"Autres organisations fonctionnant par adhésion volontaire"},
+    {code:"95.11Z",label:"Réparation d'ordinateurs et d'équipements périphériques"},
+    {code:"95.12Z",label:"Réparation d'équipements de communication"},
+    {code:"95.21Z",label:"Réparation de produits électroniques grand public"},
+    {code:"95.22Z",label:"Réparation d'appareils électroménagers et d'équipements pour la maison et le jardin"},
+    {code:"95.23Z",label:"Réparation de chaussures et d'articles en cuir"},
+    {code:"95.24Z",label:"Réparation de meubles et d'équipements du foyer"},
+    {code:"95.25Z",label:"Réparation d'articles d'horlogerie et de bijouterie"},
+    {code:"95.29Z",label:"Réparation d'autres biens personnels et domestiques"},
+    {code:"96.01A",label:"Blanchisserie-teinturerie de gros"},
+    {code:"96.01B",label:"Blanchisserie-teinturerie de détail"},
+    {code:"96.02A",label:"Coiffure"},
+    {code:"96.02B",label:"Soins de beauté"},
+    {code:"96.03Z",label:"Services funéraires"},
+    {code:"96.04Z",label:"Entretien corporel"},
+    {code:"96.09Z",label:"Autres services personnels n.c.a."}
+  ]},
+  { id:"T", label:"Activités des ménages en tant qu'employeurs ; activités indifférenciées des ménages", codes:[
+    {code:"97.00Z",label:"Activités des ménages en tant qu'employeurs de personnel domestique"},
+    {code:"98.10Z",label:"Activités indifférenciées des ménages en tant que producteurs de biens pour usage propre"},
+    {code:"98.20Z",label:"Activités indifférenciées des ménages en tant que producteurs de services pour usage propre"}
+  ]},
+  { id:"U", label:"Activités des organisations et organismes extraterritoriaux", codes:[
+    {code:"99.00Z",label:"Activités des organisations et organismes extraterritoriaux"}
+  ]}
+];
+
+const DEFAULT_NAF = ["43.11Z","43.21A","43.22A","43.22B","43.32A","43.91A","41.20B","62.01Z","81.21Z"];
+
+function buildNafGrid() {
+  const grid = document.getElementById('naf-grid');
+  NAF_GROUPS.forEach(group => {
+    const grpEl = document.createElement('div');
+    grpEl.className = 'naf-group';
+    grpEl.dataset.gid = group.id;
+
+    const checkedCount = group.codes.filter(c => DEFAULT_NAF.includes(c.code)).length;
+
+    grpEl.innerHTML = `
+      <div class="naf-group-header" onclick="nafToggleGroup(this.parentElement)">
+        <span class="naf-group-chevron">▶</span>
+        <span class="naf-group-letter">${group.id}</span>
+        <span class="naf-group-title">${group.label}</span>
+        <span class="naf-group-badge ${checkedCount>0?'has-checked':''}" data-badge>
+          ${checkedCount>0 ? checkedCount+'/' : ''}${group.codes.length}
+        </span>
+      </div>
+      <div class="naf-group-body">
+        <div class="naf-group-actions">
+          <button onclick="nafGroupSelect('${group.id}',true)">Tout cocher</button>
+          <button onclick="nafGroupSelect('${group.id}',false)">Tout décocher</button>
+        </div>
+        <div class="naf-group-items" id="naf-items-${group.id}"></div>
+      </div>
+    `;
+    grid.appendChild(grpEl);
+
+    const itemsEl = grpEl.querySelector(`#naf-items-${group.id}`);
+    group.codes.forEach(n => {
+      const lbl = document.createElement('label');
+      lbl.className = 'naf-item';
+      lbl.dataset.code = n.code;
+      lbl.dataset.label = n.label.toLowerCase();
+      lbl.innerHTML = `
+        <input type="checkbox" value="${n.code}" ${DEFAULT_NAF.includes(n.code) ? 'checked' : ''}
+               onchange="nafUpdateBadge('${group.id}')">
+        <code>${n.code}</code>
+        <span>${n.label}</span>
+      `;
+      itemsEl.appendChild(lbl);
+    });
+  });
+}
+
+function nafToggleGroup(grpEl) {
+  grpEl.classList.toggle('open');
+}
+
+function nafUpdateBadge(gid) {
+  const grpEl = document.querySelector(`.naf-group[data-gid="${gid}"]`);
+  if (!grpEl) return;
+  const all = grpEl.querySelectorAll('input[type=checkbox]');
+  const checked = grpEl.querySelectorAll('input[type=checkbox]:checked');
+  const badge = grpEl.querySelector('[data-badge]');
+  badge.textContent = (checked.length > 0 ? checked.length + '/' : '') + all.length;
+  badge.className = 'naf-group-badge' + (checked.length > 0 ? ' has-checked' : '');
+}
+
+function nafGroupSelect(gid, state) {
+  const grpEl = document.querySelector(`.naf-group[data-gid="${gid}"]`);
+  if (!grpEl) return;
+  grpEl.querySelectorAll('.naf-group-items .naf-item:not(.hidden) input[type=checkbox]').forEach(cb => cb.checked = state);
+  nafUpdateBadge(gid);
+}
+
+function nafSelectAll(state) {
+  document.querySelectorAll('#naf-grid .naf-item:not(.hidden) input[type=checkbox]').forEach(cb => cb.checked = state);
+  NAF_GROUPS.forEach(g => nafUpdateBadge(g.id));
+}
+
+function nafFilter(q) {
+  const term = q.trim().toLowerCase();
+  NAF_GROUPS.forEach(group => {
+    const grpEl = document.querySelector(`.naf-group[data-gid="${group.id}"]`);
+    if (!grpEl) return;
+    let anyVisible = false;
+    grpEl.querySelectorAll('.naf-item').forEach(item => {
+      const match = !term || item.dataset.code.toLowerCase().includes(term) || item.dataset.label.includes(term);
+      item.classList.toggle('hidden', !match);
+      if (match) anyVisible = true;
+    });
+    grpEl.style.display = anyVisible ? '' : 'none';
+    if (term && anyVisible) grpEl.classList.add('open');
+    else if (!term) grpEl.classList.remove('open');
+  });
+}
+
+buildNafGrid();
+
+// ── SMC ───────────────────────────────────────────────────────────────────────
+function scoreAge(age) {
+  if (!age) return 0;
+  if (age >= 70) return 100; if (age >= 65) return 95;
+  if (age >= 60) return 80;  if (age >= 55) return 50;
+  if (age >= 50) return 20;  return 0;
+}
+function scoreAnciennete(dc) {
+  if (!dc) return { score: 0, ans: 0 };
+  try {
+    const ans = (Date.now() - new Date(dc).getTime()) / (365.25*24*3600*1000);
+    let score = 0;
+    if (ans>=25) score=100; else if(ans>=20) score=85; else if(ans>=15) score=65;
+    else if(ans>=10) score=40; else if(ans>=5) score=20;
+    return { score, ans: Math.floor(ans) };
+  } catch { return { score: 0, ans: 0 }; }
+}
+function scoreFinancier(finances) {
+  const cas = finances.filter(f => f.ca).map(f => f.ca);
+  if (cas.length < 2) return 50;
+  const g = (cas[0] - cas[cas.length-1]) / cas[cas.length-1];
+  if (g > 0.05) return Math.min(100, Math.round(80 + g*100));
+  if (g > -0.05) return 55;
+  return Math.max(0, Math.round(40 + g*100));
+}
+function calcSmc(age, dc, finances) {
+  const { score: sa, ans } = scoreAnciennete(dc);
+  const smc = Math.round(scoreAge(age)*0.5 + sa*0.3 + scoreFinancier(finances)*0.2);
+  return { smc, anciennete: ans };
+}
+function labelSmc(smc) {
+  if (smc>=85) return "Très probable"; if (smc>=65) return "Fort potentiel";
+  if (smc>=40) return "Possible"; return "Peu probable";
+}
+function classSmc(smc) {
+  if (smc>=85) return "smc-blue"; if (smc>=65) return "smc-green";
+  if (smc>=40) return "smc-orange"; return "smc-red";
+}
+function colorSmc(smc) {
+  if (smc>=85) return "#7aaee8"; if (smc>=65) return "#6dc994";
+  if (smc>=40) return "#dfa060"; return "#d97777";
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function fmtCA(v) {
+  if (!v) return '<span class="tag-nc">N/C</span>';
+  return (v/1000).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' k€';
+}
+function calcAge(ddn) {
+  if (!ddn) return null;
+  const s = String(ddn).trim();
+  if (!s || s === '0') return null;
+  const parts = s.split('-');
+  try {
+    const y = parseInt(parts[0]);
+    if (!y || y < 1920 || y > 2010) return null;
+    const m = parts.length > 1 ? parseInt(parts[1]) - 1 : 5; // juin par défaut
+    const d = parts.length > 2 ? parseInt(parts[2]) : 15;    // 15 par défaut
+    const age = Math.floor((Date.now() - new Date(y, m, d).getTime()) / (365.25 * 24 * 3600 * 1000));
+    return age > 0 && age < 120 ? age : null;
+  } catch { return null; }
+}
+
+// ── PROGRESS ─────────────────────────────────────────────────────────────────
+function setStep(n, state) {
+  ['1','2','3'].forEach(i => {
+    const el = document.getElementById('step-'+i);
+    el.classList.remove('active','done');
+  });
+  for (let i=1; i<n; i++) document.getElementById('step-'+i).classList.add('done');
+  if (n<=3) document.getElementById('step-'+n).classList.add('active');
+  document.getElementById('progress-bar').style.width = Math.round((n-1)/3*100)+'%';
+}
+function log(msg, type='') {
+  const el = document.getElementById('progress-log');
+  const line = document.createElement('div');
+  line.className = 'log-line' + (type ? ' '+type : '');
+  line.textContent = msg;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
+function finishProgress() {
+  document.getElementById('spinner').style.display = 'none';
+  document.getElementById('progress-title-text').textContent = 'Recherche terminée';
+  document.getElementById('progress-bar').style.width = '100%';
+  ['1','2','3'].forEach(i => {
+    const el = document.getElementById('step-'+i);
+    el.classList.remove('active'); el.classList.add('done');
+  });
+}
+
+// ── ETAT ──────────────────────────────────────────────────────────────────────
+let allResults = [];
+let isRunning  = false;
+
+// ── PASSE 1 ───────────────────────────────────────────────────────────────────
+async function fetchPage(dept, naf, page) {
+  const params = new URLSearchParams({
+    departement: dept,
+    activite_principale: naf,
+    etat_administratif: 'A',
+    per_page: 25,
+    page
+  });
+  return api(`https://recherche-entreprises.api.gouv.fr/search?${params}`);
+}
+
+async function passe1(depts, nafs) {
+  setStep(1);
+  log('Passe 1 — Interrogation data.gouv.fr…');
+  const map = {};
+  for (const dept of depts) {
+    for (const naf of nafs) {
+      let page = 1, nb = 0;
+      while (true) {
+        try {
+          const data = await fetchPage(dept, naf, page);
+          const items = data.results || [];
+          const total = data.total_results || 0;
+          for (const e of items) {
+            if (!e.siren || map[e.siren]) continue;
+            const siege = e.siege || {};
+            map[e.siren] = {
+              siren: e.siren,
+              nom: e.nom_raison_sociale || e.nom_complet || '',
+              forme: e.nature_juridique || '',
+              adresse: siege.adresse || '',
+              ville: siege.commune || '',
+              cp: siege.code_postal || '',
+              naf: siege.activite_principale || naf,
+              naf_libelle: e.libelle_activite_principale || '',
+              date_creation: siege.date_creation || e.date_creation || '',
+              effectif: siege.tranche_effectif_salarie || '',
+              dirigeant: '', age: null, ddn: '',
+              finances: [], ca: null, resultat: null,
+              smc: 0, anciennete: 0,
+            };
+            nb++;
+          }
+          if (page*25 >= Math.min(total,300) || !items.length) break;
+          page++;
+          await sleep(80);
+        } catch(e) { log(`  ⚠ Dept ${dept} NAF ${naf}: ${e.message}`, 'warn'); break; }
+      }
+    }
+  }
+  log(`  → ${Object.keys(map).length} entreprises uniques`, 'ok');
+  return map;
+}
+
+// ── PASSE 2 ───────────────────────────────────────────────────────────────────
+async function getDirigeants(siren) {
+  // Le bon endpoint : search?q={siren} (sans "siren:")
+  // Il retourne un champ "dirigeants" avec annee_de_naissance
+  try {
+    const data = await api(`https://recherche-entreprises.api.gouv.fr/search?q=${siren}&per_page=1`);
+    const e = (data.results || [])[0];
+    if (e) {
+      const dirs = e.dirigeants || [];
+      // Filtrer personnes physiques (ont un prénom ou une année de naissance)
+      const pp = dirs.filter(d => d.prenoms || d.prenom || d.annee_de_naissance || d.date_de_naissance || d.type_dirigeant === 'personne physique');
+      // Chercher gérant / président en priorité
+      const cibles = ['gérant','gérant','president','président','directeur'];
+      for (const d of pp) {
+        const role = (d.qualite || d.role || d.fonction || '').toLowerCase();
+        if (cibles.some(k => role.includes(k))) {
+          return _extraireDirigeant(d);
+        }
+      }
+      // Sinon premier PP avec année de naissance
+      const avecDate = pp.find(d => d.annee_de_naissance || d.date_naissance);
+      if (avecDate) return _extraireDirigeant(avecDate);
+      // Sinon premier PP
+      if (pp[0]) return _extraireDirigeant(pp[0]);
+      // Sinon premier dirigeant tout court
+      if (dirs[0]) return _extraireDirigeant(dirs[0]);
+    }
+  } catch(e) { /* continuer */ }
+
+  // Fallback : annuaire-entreprises
+  try {
+    const data = await api(`https://annuaire-entreprises.api.gouv.fr/api/rne/v1/entreprise/${siren}`);
+    const dirs = data.dirigeants || data.representants || [];
+    const cibles = ['gérant','president','président','directeur'];
+    for (const d of dirs) {
+      const role = (d.role || d.qualite || '').toLowerCase();
+      if (cibles.some(k => role.includes(k))) return _extraireDirigeant(d);
+    }
+    if (dirs[0]) return _extraireDirigeant(dirs[0]);
+  } catch { return null; }
+  return null;
+}
+
+function _extraireDirigeant(d) {
+  // Champs réels retournés par l'API : prenoms, date_de_naissance, annee_de_naissance
+  let ddn = d.date_de_naissance      // "1944-10" ou "1944-10-22"
+         || d.date_naissance
+         || d.dateDeNaissance
+         || '';
+  if (!ddn && d.annee_de_naissance) {
+    ddn = String(d.annee_de_naissance);  // "1944" — calcAge gère le format YYYY
+  }
+  return {
+    nom:            d.nom || '',
+    prenom:         d.prenoms || d.prenom || d.firstName || '',
+    date_naissance: ddn,
+    role:           d.qualite || d.role || d.fonction || '',
+  };
+}
+
+
+async function passe2(map, ageMin, ageMax, maxSiren) {
+  setStep(2);
+  log(`Passe 2 — Enrichissement dirigeants (max ${maxSiren})…`);
+  const sirens = Object.keys(map).slice(0, maxSiren);
+  const retenus = {};
+  let hors = 0, inconnu = 0;
+  for (let i=0; i<sirens.length; i++) {
+    if (i>0 && i%50===0) log(`  ${i}/${sirens.length} — retenus: ${Object.keys(retenus).length}`);
+    const siren = sirens[i];
+    const dir = await getDirigeants(siren);
+    if (dir) {
+      const nom    = `${dir.prenom||''} ${dir.nom||''}`.trim();
+      const ddn    = dir.date_naissance || '';
+      const age    = calcAge(ddn);
+      map[siren].dirigeant = nom;
+      map[siren].ddn       = ddn;
+      map[siren].age       = age;
+      if (age === null) { inconnu++; retenus[siren] = map[siren]; }
+      else if (age >= ageMin && age <= ageMax) retenus[siren] = map[siren];
+      else hors++;
+    } else {
+      inconnu++;
+      retenus[siren] = map[siren];
+    }
+    await sleep(280);
+  }
+  log(`  → ${Object.keys(retenus).length} retenus (hors cible: ${hors}, âge inconnu: ${inconnu})`, 'ok');
+  return retenus;
+}
+
+// ── PASSE 3 ───────────────────────────────────────────────────────────────────
+async function getBilans(siren) {
+  try {
+    const d = await api(`https://annuaire-entreprises.api.gouv.fr/api/rne/v1/entreprise/${siren}/bilans`);
+    const data = await r.json();
+    const bilans = data.bilans || data.results || [];
+    return bilans.slice(0,3).map(b => ({
+      annee: b.annee || b.year || '',
+      ca: parseFloat(String(b.chiffre_affaires || b.ca || b.chiffreAffaires || '').replace(/\s/g,'').replace(',','.')) || null,
+      res: parseFloat(String(b.resultat_net || b.resultat || b.resultatNet || '').replace(/\s/g,'').replace(',','.')) || null,
+    })).sort((a,b) => String(b.annee).localeCompare(String(a.annee)));
+  } catch { return []; }
+}
+
+async function passe3(retenus, caMin, caMax) {
+  setStep(3);
+  log(`Passe 3 — Bilans (${Object.keys(retenus).length} entreprises)…`);
+  const finales = {};
+  let horsCa = 0, sansCa = 0;
+  const entries = Object.entries(retenus);
+  for (let i=0; i<entries.length; i++) {
+    if (i>0 && i%50===0) log(`  ${i}/${entries.length} — finales: ${Object.keys(finales).length}`);
+    const [siren, e] = entries[i];
+    const finances = await getBilans(siren);
+    e.finances = finances;
+    const ca  = finances[0]?.ca  || null;
+    const res = finances[0]?.res || null;
+    e.ca      = ca;
+    e.resultat = res;
+    if (ca !== null) {
+      if (caMin && caMax && (ca < caMin || ca > caMax)) { horsCa++; await sleep(250); continue; }
+    } else { sansCa++; }
+    const { smc, anciennete } = calcSmc(e.age, e.date_creation, finances);
+    e.smc        = smc;
+    e.anciennete = anciennete;
+    finales[siren] = e;
+    await sleep(250);
+  }
+  log(`  → ${Object.keys(finales).length} cibles finales (hors CA: ${horsCa}, sans CA: ${sansCa})`, 'ok');
+  return finales;
+}
+
+// ── LANCEMENT ─────────────────────────────────────────────────────────────────
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// Appel API via proxy local (évite les blocages CORS)
+async function api(url) {
+  const proxyUrl = '/proxy?url=' + encodeURIComponent(url);
+  const r = await fetch(proxyUrl);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
+}
+
+
+async function lancerRecherche() {
+  if (isRunning) return;
+  isRunning = true;
+  const btn = document.getElementById('btn-launch');
+  btn.disabled = true;
+
+  // Lire critères
+  const depts  = document.getElementById('f-dept').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const ageMin = parseInt(document.getElementById('f-age-min').value) || 55;
+  const ageMax = parseInt(document.getElementById('f-age-max').value) || 80;
+  const caMin  = parseInt(document.getElementById('f-ca-min').value)  || 0;
+  const caMax  = parseInt(document.getElementById('f-ca-max').value)  || 0;
+  const maxS   = parseInt(document.getElementById('f-max').value)     || 500;
+  const nafs   = [...document.querySelectorAll('#naf-grid input:checked')].map(i=>i.value);
+
+  if (!depts.length || !nafs.length) {
+    alert('Veuillez renseigner au moins un département et un secteur NAF.');
+    btn.disabled = false; isRunning = false; return;
+  }
+
+  // Afficher progress
+  document.getElementById('progress-card').classList.add('visible');
+  document.getElementById('spinner').style.display = 'inline-block';
+  document.getElementById('progress-title-text').textContent = 'Recherche en cours…';
+  document.getElementById('progress-bar').style.width = '0%';
+  document.getElementById('progress-log').innerHTML = '';
+  document.getElementById('kpis').style.display = 'none';
+  document.getElementById('filters-bar').style.display = 'none';
+  document.getElementById('results-area').innerHTML = '';
+  allResults = [];
+
+  try {
+    const map     = await passe1(depts, nafs);
+    const retenus = await passe2(map, ageMin, ageMax, maxS);
+    const finales = await passe3(retenus, caMin, caMax);
+
+    allResults = Object.values(finales).sort((a,b) => b.smc - a.smc);
+    finishProgress();
+    renderKpis();
+    document.getElementById('kpis').style.display = 'grid';
+    document.getElementById('filters-bar').style.display = 'flex';
+    renderTable();
+    log(`Terminé — ${allResults.length} cibles dans le tableau`, 'ok');
+  } catch(e) {
+    log(`Erreur : ${e.message}`, 'err');
+    console.error(e);
+  }
+
+  btn.disabled = false;
+  isRunning = false;
+}
+
+// ── KPIs ──────────────────────────────────────────────────────────────────────
+function renderKpis() {
+  const nb    = allResults.length;
+  const fort  = allResults.filter(e => e.smc >= 65).length;
+  const smcs  = allResults.map(e => e.smc);
+  const smcM  = nb ? Math.round(smcs.reduce((a,b)=>a+b,0)/nb) : 0;
+  const cas   = allResults.filter(e => e.ca).map(e => e.ca);
+  const caM   = cas.length ? Math.round(cas.reduce((a,b)=>a+b,0)/cas.length/1000) : null;
+  document.getElementById('kpi-total').textContent = nb;
+  document.getElementById('kpi-fort').textContent  = fort;
+  document.getElementById('kpi-smc-moy').textContent = smcM;
+  document.getElementById('kpi-ca-moy').textContent  = caM ? caM+' k€' : 'N/C';
+}
+
+// ── TABLE ─────────────────────────────────────────────────────────────────────
+let currentPage = 1;
+const PER_PAGE = 25;
+
+function renderTable() {
+  currentPage = 1;
+  renderPage();
+}
+
+function renderPage() {
+  const smcMin  = parseInt(document.getElementById('filter-smc').value) || 0;
+  const sortBy  = document.getElementById('sort-by').value;
+
+  let data = allResults.filter(e => e.smc >= smcMin);
+  data.sort((a,b) => {
+    if (sortBy==='smc') return b.smc - a.smc;
+    if (sortBy==='ca')  return (b.ca||0) - (a.ca||0);
+    if (sortBy==='age') return (b.age||0) - (a.age||0);
+    if (sortBy==='anc') return b.anciennete - a.anciennete;
+    return 0;
+  });
+
+  const total = data.length;
+  const start = (currentPage-1)*PER_PAGE;
+  const page  = data.slice(start, start+PER_PAGE);
+
+  const area = document.getElementById('results-area');
+  if (!page.length) {
+    area.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">◈</div>
+      <div class="empty-title">Aucune cible pour ces filtres</div>
+      <div class="empty-sub">Essayez de baisser le filtre SMC minimum</div>
+    </div>`;
+    return;
+  }
+
+  area.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Entreprise</th>
+          <th>Ville</th>
+          <th>Secteur</th>
+          <th class="ca-val">CA</th>
+          <th class="ca-val">Résultat</th>
+          <th>Effectif</th>
+          <th>Dirigeant</th>
+          <th>Âge</th>
+          <th>Ancienneté</th>
+          <th>SMC</th>
+          <th>Fiche</th>
+        </tr></thead>
+        <tbody>
+          ${page.map(e => `
+            <tr onclick="openDrawer('${e.siren}')">
+              <td><div class="company-name">${e.nom}</div><div class="company-form">${e.forme||''}</div></td>
+              <td>${e.ville||'—'}</td>
+              <td><div class="naf-label" title="${e.naf_libelle}">${e.naf_libelle||e.naf||'—'}</div></td>
+              <td class="ca-val">${fmtCA(e.ca)}</td>
+              <td class="ca-val">${fmtCA(e.resultat)}</td>
+              <td>${e.effectif||'—'}</td>
+              <td>${e.dirigeant||'—'}</td>
+              <td>${e.age ? e.age+' ans' : '<span class="tag-nc">?</span>'}</td>
+              <td>${e.anciennete ? e.anciennete+' ans' : '—'}</td>
+              <td><span class="smc-badge ${classSmc(e.smc)}"><span class="smc-dot"></span>${e.smc}</span></td>
+              <td><a class="link-ann" href="https://annuaire-entreprises.data.gouv.fr/entreprise/${e.siren}" target="_blank" onclick="event.stopPropagation()">↗</a></td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button class="pag-btn" onclick="changePage(-1)" ${currentPage===1?'disabled':''}>← Préc.</button>
+      <span>Page ${currentPage} / ${Math.ceil(total/PER_PAGE)} — ${total} résultats</span>
+      <button class="pag-btn" onclick="changePage(1)" ${currentPage>=Math.ceil(total/PER_PAGE)?'disabled':''}>Suiv. →</button>
+    </div>
+  `;
+}
+
+function changePage(dir) {
+  currentPage += dir;
+  renderPage();
+  document.querySelector('.main').scrollTo(0,0);
+}
+
+// ── DRAWER ────────────────────────────────────────────────────────────────────
+let currentSiren = null;
+function openDrawer(siren) {
+  const e = allResults.find(x => x.siren === siren);
+  if (!e) return;
+  currentSiren = siren;
+  const { smc } = e;
+  const col = colorSmc(smc);
+  const fins = e.finances || [];
+  document.getElementById('drawer-content').innerHTML = `
+    <div class="drawer-name">${e.nom}</div>
+    <div class="drawer-siren">SIREN ${e.siren} · ${e.forme||'—'}</div>
+
+    <div class="smc-big">
+      <div class="smc-num" style="color:${col}">${smc}</div>
+      <div class="smc-info">
+        <div class="smc-label-big" style="color:${col}">${labelSmc(smc)}</div>
+        <div class="smc-desc">Score de Maturité Cession</div>
+        <div class="smc-bar-wrap"><div class="smc-bar-fill" style="width:${smc}%;background:${col}"></div></div>
+      </div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-title">Dirigeant</div>
+      <div class="drawer-row"><span class="drawer-row-label">Nom</span><span class="drawer-row-val">${e.dirigeant||'Non renseigné'}</span></div>
+      <div class="drawer-row"><span class="drawer-row-label">Âge</span><span class="drawer-row-val">${e.age ? e.age+' ans' : 'Inconnu'}</span></div>
+      <div class="drawer-row"><span class="drawer-row-label">Date naissance</span><span class="drawer-row-val">${e.ddn||'—'}</span></div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-title">Entreprise</div>
+      <div class="drawer-row"><span class="drawer-row-label">Adresse</span><span class="drawer-row-val">${e.adresse||'—'}</span></div>
+      <div class="drawer-row"><span class="drawer-row-label">Ville</span><span class="drawer-row-val">${e.cp||''} ${e.ville||'—'}</span></div>
+      <div class="drawer-row"><span class="drawer-row-label">Code NAF</span><span class="drawer-row-val">${e.naf||'—'}</span></div>
+      <div class="drawer-row"><span class="drawer-row-label">Secteur</span><span class="drawer-row-val" style="max-width:180px;text-align:right">${e.naf_libelle||'—'}</span></div>
+      <div class="drawer-row"><span class="drawer-row-label">Effectif</span><span class="drawer-row-val">${e.effectif||'—'}</span></div>
+      <div class="drawer-row"><span class="drawer-row-label">Ancienneté</span><span class="drawer-row-val">${e.anciennete ? e.anciennete+' ans' : '—'}</span></div>
+      <div class="drawer-row"><span class="drawer-row-label">Création</span><span class="drawer-row-val">${e.date_creation||'—'}</span></div>
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-title">Financier</div>
+      ${fins.length ? `
+        <div class="fin-row fin-row-hdr"><span>Année</span><span>CA</span><span>Résultat</span></div>
+        ${fins.map(f => `<div class="fin-row">
+          <span>${f.annee||'—'}</span>
+          <span>${f.ca ? Math.round(f.ca/1000)+' k€' : '<span class="tag-nc">N/C</span>'}</span>
+          <span>${f.res!=null ? Math.round(f.res/1000)+' k€' : '<span class="tag-nc">N/C</span>'}</span>
+        </div>`).join('')}
+      ` : '<div class="tag-nc">Aucun bilan public disponible</div>'}
+    </div>
+
+    <div class="drawer-section">
+      <div class="drawer-section-title">Liens</div>
+      <div class="drawer-row">
+        <span class="drawer-row-label">Annuaire officiel</span>
+        <a class="link-ann" href="https://annuaire-entreprises.data.gouv.fr/entreprise/${e.siren}" target="_blank">Ouvrir ↗</a>
+      </div>
+    </div>
+  `;
+  document.getElementById('drawer-overlay').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+function closeDrawer() {
+  document.getElementById('drawer-overlay').classList.remove('open');
+  document.getElementById('drawer').classList.remove('open');
+}
+
+// ── EXPORT EXCEL ──────────────────────────────────────────────────────────────
+function exportExcel() {
+  if (!allResults.length) return;
+  const smcMin = parseInt(document.getElementById('filter-smc').value)||0;
+  const data = allResults.filter(e => e.smc >= smcMin);
+  const rows = data.map(e => ({
+    'SIREN':             e.siren,
+    'Entreprise':        e.nom,
+    'Forme juridique':   e.forme,
+    'Adresse':           e.adresse,
+    'Ville':             e.ville,
+    'Code postal':       e.cp,
+    'Code NAF':          e.naf,
+    'Secteur':           e.naf_libelle,
+    'CA (€)':            e.ca || '',
+    'Résultat net (€)':  e.resultat || '',
+    'Effectif':          e.effectif,
+    'Dirigeant':         e.dirigeant,
+    'Âge dirigeant':     e.age || '',
+    'Date naissance':    e.ddn,
+    'Ancienneté (ans)':  e.anciennete || '',
+    'Score SMC':         e.smc,
+    'Potentiel cession': labelSmc(e.smc),
+    'Lien Annuaire':     `https://annuaire-entreprises.data.gouv.fr/entreprise/${e.siren}`,
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(rows);
+  ws['!cols'] = Object.keys(rows[0]).map(k => ({ wch: Math.max(12, k.length+2) }));
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Cibles acquisition');
+
+  // Synthèse
+  const nb   = data.length;
+  const smcs = data.map(e=>e.smc);
+  const cas  = data.filter(e=>e.ca).map(e=>e.ca);
+  const stats = [
+    { Indicateur: 'Cibles exportées',     Valeur: nb },
+    { Indicateur: 'SMC moyen',            Valeur: nb ? Math.round(smcs.reduce((a,b)=>a+b,0)/nb) : 0 },
+    { Indicateur: 'Fort potentiel (≥65)', Valeur: smcs.filter(s=>s>=65).length },
+    { Indicateur: 'Très probable (≥85)',  Valeur: smcs.filter(s=>s>=85).length },
+    { Indicateur: 'CA moyen (k€)',        Valeur: cas.length ? Math.round(cas.reduce((a,b)=>a+b,0)/cas.length/1000) : 0 },
+    { Indicateur: 'Sans CA public',       Valeur: data.filter(e=>!e.ca).length },
+  ];
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(stats), 'Synthèse');
+
+  const today = new Date().toISOString().slice(0,10);
+  XLSX.writeFile(wb, `dragons_capital_cibles_${today}.xlsx`);
+}
+
+
+
+
+
+
+// ── DEBUG SIREN ──────────────────────────────────────────────────────────────
+async function debugSiren() {
+  const siren = document.getElementById('debug-siren').value.trim().replace(/\D/g,'');
+  if (!siren) return;
+  const out = document.getElementById('debug-output');
+  out.style.display = 'block';
+  out.textContent = 'Interrogation en cours (délai anti rate-limit)...';
+
+  let r = '';
+  // Attendre 2s pour éviter le 429
+  await new Promise(res => setTimeout(res, 2000));
+  try {
+    const d = await api(`https://recherche-entreprises.api.gouv.fr/search?q=${siren}&per_page=1`);
+    r = JSON.stringify(d, null, 2);
+  } catch(e) {
+    r = 'Erreur: ' + e.message;
+  }
+  out.textContent = r;
+}
+
+</script>
+</body>
+</html>
