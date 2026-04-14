@@ -1749,43 +1749,41 @@ async function passe1(depts, nafs) {
 
 // ── PASSE 2 ───────────────────────────────────────────────────────────────────
 async function getDirigeants(siren) {
-  // Le bon endpoint : search?q={siren} (sans "siren:")
-  // Il retourne un champ "dirigeants" avec annee_de_naissance
+  // Endpoint principal : retourne dirigeants ET finances dans le même appel
   try {
     const data = await api(`https://recherche-entreprises.api.gouv.fr/search?q=${siren}&per_page=1`);
     const e = (data.results || [])[0];
     if (e) {
       const dirs = e.dirigeants || [];
-      // Filtrer personnes physiques (ont un prénom ou une année de naissance)
-      const pp = dirs.filter(d => d.prenoms || d.prenom || d.annee_de_naissance || d.date_de_naissance || d.type_dirigeant === 'personne physique');
-      // Chercher gérant / président en priorité
-      const cibles = ['gérant','gérant','president','président','directeur'];
+      const pp   = dirs.filter(d => d.prenoms || d.prenom || d.annee_de_naissance || d.date_de_naissance || d.type_dirigeant === 'personne physique');
+      const cibles = ['gérant','president','président','directeur'];
+      let found = null;
       for (const d of pp) {
         const role = (d.qualite || d.role || d.fonction || '').toLowerCase();
-        if (cibles.some(k => role.includes(k))) {
-          return _extraireDirigeant(d);
-        }
+        if (cibles.some(k => role.includes(k))) { found = d; break; }
       }
-      // Sinon premier PP avec année de naissance
-      const avecDate = pp.find(d => d.annee_de_naissance || d.date_naissance);
-      if (avecDate) return _extraireDirigeant(avecDate);
-      // Sinon premier PP
-      if (pp[0]) return _extraireDirigeant(pp[0]);
-      // Sinon premier dirigeant tout court
-      if (dirs[0]) return _extraireDirigeant(dirs[0]);
+      if (!found) found = pp.find(d => d.annee_de_naissance || d.date_naissance);
+      if (!found) found = pp[0];
+      if (!found) found = dirs[0];
+      if (found) {
+        // finances = {"2024": {ca: 123, resultat_net: 456}, ...}
+        return { ..._extraireDirigeant(found), finances: e.finances || {} };
+      }
     }
-  } catch(e) { /* continuer */ }
+  } catch(err) { /* continuer */ }
 
-  // Fallback : annuaire-entreprises
+  // Fallback : annuaire-entreprises (pas de données finances disponibles)
   try {
     const data = await api(`https://annuaire-entreprises.api.gouv.fr/api/rne/v1/entreprise/${siren}`);
     const dirs = data.dirigeants || data.representants || [];
     const cibles = ['gérant','president','président','directeur'];
+    let found = null;
     for (const d of dirs) {
       const role = (d.role || d.qualite || '').toLowerCase();
-      if (cibles.some(k => role.includes(k))) return _extraireDirigeant(d);
+      if (cibles.some(k => role.includes(k))) { found = d; break; }
     }
-    if (dirs[0]) return _extraireDirigeant(dirs[0]);
+    if (!found) found = dirs[0];
+    if (found) return { ..._extraireDirigeant(found), finances: {} };
   } catch { return null; }
   return null;
 }
@@ -1822,9 +1820,10 @@ async function passe2(map, ageMin, ageMax, maxSiren) {
       const nom    = `${dir.prenom||''} ${dir.nom||''}`.trim();
       const ddn    = dir.date_naissance || '';
       const age    = calcAge(ddn);
-      map[siren].dirigeant = nom;
-      map[siren].ddn       = ddn;
-      map[siren].age       = age;
+      map[siren].dirigeant    = nom;
+      map[siren].ddn          = ddn;
+      map[siren].age          = age;
+      map[siren].finances_obj = dir.finances || {};
       if (age === null) { inconnu++; retenus[siren] = map[siren]; }
       else if (age >= ageMin && age <= ageMax) retenus[siren] = map[siren];
       else hors++;
@@ -1839,44 +1838,51 @@ async function passe2(map, ageMin, ageMax, maxSiren) {
 }
 
 // ── PASSE 3 ───────────────────────────────────────────────────────────────────
-async function getBilans(siren) {
-  try {
-    const d = await api(`https://annuaire-entreprises.api.gouv.fr/api/rne/v1/entreprise/${siren}/bilans`);
-    const data = await r.json();
-    const bilans = data.bilans || data.results || [];
-    return bilans.slice(0,3).map(b => ({
-      annee: b.annee || b.year || '',
-      ca: parseFloat(String(b.chiffre_affaires || b.ca || b.chiffreAffaires || '').replace(/\s/g,'').replace(',','.')) || null,
-      res: parseFloat(String(b.resultat_net || b.resultat || b.resultatNet || '').replace(/\s/g,'').replace(',','.')) || null,
-    })).sort((a,b) => String(b.annee).localeCompare(String(a.annee)));
-  } catch { return []; }
+// Convertit l'objet finances {"2024":{ca,resultat_net}, ...} en tableau trié
+// au format attendu par scoreFinancier : [{annee, ca, res}, ...]
+function extractFinances(financesObj) {
+  if (!financesObj || typeof financesObj !== 'object') return [];
+  return Object.entries(financesObj)
+    .map(([annee, f]) => ({
+      annee,
+      ca:  f.ca           != null ? parseFloat(f.ca)           : null,
+      res: f.resultat_net != null ? parseFloat(f.resultat_net) : null,
+    }))
+    .filter(f => f.ca !== null || f.res !== null)
+    .sort((a, b) => String(b.annee).localeCompare(String(a.annee)));
 }
 
 async function passe3(retenus, caMin, caMax) {
   setStep(3);
-  log(`Passe 3 — Bilans (${Object.keys(retenus).length} entreprises)…`);
+  const nb = Object.keys(retenus).length;
+  log(`Passe 3 — Bilans (${nb} entreprises, données issues de la passe 2)…`);
   const finales = {};
   let horsCa = 0, sansCa = 0;
-  const entries = Object.entries(retenus);
-  for (let i=0; i<entries.length; i++) {
-    if (i>0 && i%50===0) log(`  ${i}/${entries.length} — finales: ${Object.keys(finales).length}`);
-    const [siren, e] = entries[i];
-    const finances = await getBilans(siren);
+
+  for (const [siren, e] of Object.entries(retenus)) {
+    // Finances déjà capturées en passe 2 — aucun appel HTTP supplémentaire
+    const finances = extractFinances(e.finances_obj);
     e.finances = finances;
-    const ca  = finances[0]?.ca  || null;
-    const res = finances[0]?.res || null;
+
+    const ca  = finances[0]?.ca  ?? null;
+    const res = finances[0]?.res ?? null;
     e.ca      = ca;
     e.resultat = res;
+
     if (ca !== null) {
-      if (caMin && caMax && (ca < caMin || ca > caMax)) { horsCa++; await sleep(250); continue; }
-    } else { sansCa++; }
+      if (caMin && caMax && (ca < caMin || ca > caMax)) { horsCa++; continue; }
+    } else {
+      sansCa++;
+      log(`  ⚠ ${siren} — pas de données CA, entreprise conservée`, 'warn');
+    }
+
     const { smc, anciennete } = calcSmc(e.age, e.date_creation, finances);
     e.smc        = smc;
     e.anciennete = anciennete;
     finales[siren] = e;
-    await sleep(250);
   }
-  log(`  → ${Object.keys(finales).length} cibles finales (hors CA: ${horsCa}, sans CA: ${sansCa})`, 'ok');
+
+  log(`  → ${Object.keys(finales).length} cibles finales (hors CA: ${horsCa}, sans données: ${sansCa})`, 'ok');
   return finales;
 }
 
